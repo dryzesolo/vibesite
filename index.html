@@ -213,6 +213,9 @@ body{
   text-decoration-color:var(--slate-300);text-underline-offset:3px}
 .link-btn:hover{color:var(--rose);text-decoration-color:currentColor}
 .link-btn:focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
+.app-footer{margin-top:24px;text-align:center;padding:16px 0;
+  display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.app-footer .link-btn{font-size:.75rem;color:var(--slate-500);text-decoration:none}
 
 @media(max-width:480px){
   body{padding:16px 12px}
@@ -257,11 +260,31 @@ const plural = (n,one,few,many)=>{
   return many;
 };
 
+/* ---------- Дроби: равенство по значению ---------- */
+const fracEq = (a,b)=>{
+  try{
+    const [an,ad]=String(a).split('/').map(Number);
+    const [bn,bd]=String(b).split('/').map(Number);
+    if(!ad||!bd) return false;
+    return an*bd===bn*ad;
+  }catch{return false;}
+};
+const distinct = (list,correct)=>{
+  const out=[];
+  for(const c of list){
+    if(fracEq(c,correct)) continue;
+    if(out.some(x=>fracEq(x,c))) continue;
+    out.push(c);
+  }
+  return out;
+};
+const FORCE_POOL = ['1/2','1/3','2/3','1/4','3/4','1/5','2/5','3/5','4/5','1/6','5/6','2/7','5/7','3/8','7/8'];
+
 /* ---------- Темы ---------- */
 const TOPICS = {
-  compare:  {label:'Сравнение',       icon:'⚖️'},
+  compare:  {label:'Сравнение',        icon:'⚖️'},
   identify: {label:'Дробь по картинке',icon:'🔍'},
-  add:      {label:'Сложение',        icon:'➕'}
+  add:      {label:'Сложение',         icon:'➕'}
 };
 
 /* ---------- Хранилище истории ---------- */
@@ -278,9 +301,7 @@ function saveRun(run){
     localStorage.setItem(STORAGE_KEY,JSON.stringify(h));
   }catch{}
 }
-function clearHistory(){
-  try{localStorage.removeItem(STORAGE_KEY);}catch{}
-}
+function clearHistory(){try{localStorage.removeItem(STORAGE_KEY);}catch{}}
 function aggregateTopics(runs){
   const agg={compare:{correct:0,total:0},identify:{correct:0,total:0},add:{correct:0,total:0}};
   runs.forEach(run=>{
@@ -350,8 +371,11 @@ function buildCompare(a,b,isEqual){
     options, explanation
   };
 }
-function makeIdentify(){
-  const d=randInt(2,8), n=randInt(1,d-1);
+
+/* forcedD — только для диагностики; в обычном режиме undefined */
+function makeIdentify(forcedD){
+  const d=forcedD || randInt(2,8);
+  const n=randInt(1,d-1);
   const correct=`${n}/${d}`;
   const cand=new Set();
   if(d-n>0 && d-n!==n) cand.add(`${d-n}/${d}`);
@@ -360,13 +384,28 @@ function makeIdentify(){
   cand.add(`${d}/${n}`);
   if(n+1<d) cand.add(`${n+1}/${d}`);
   if(n-1>0) cand.add(`${n-1}/${d}`);
-  cand.delete(correct);
-  let distractors=shuffle([...cand]).slice(0,3);
-  while(distractors.length<3){
-    const dd=randInt(2,8), nn=randInt(1,dd-1);
+
+  let distractors = distinct(shuffle([...cand]), correct).slice(0,3);
+
+  let guard=0;
+  while(distractors.length<3 && guard++<300){
+    const dd=randInt(2,10);
+    const nn=randInt(1,dd-1);
     const c=`${nn}/${dd}`;
-    if(c!==correct && !distractors.includes(c)) distractors.push(c);
+    if(fracEq(c,correct)) continue;
+    if(distractors.some(x=>fracEq(x,c))) continue;
+    distractors.push(c);
   }
+
+  if(distractors.length<3){
+    for(const c of FORCE_POOL){
+      if(distractors.length>=3) break;
+      if(fracEq(c,correct)) continue;
+      if(distractors.some(x=>fracEq(x,c))) continue;
+      distractors.push(c);
+    }
+  }
+
   const options=shuffle([correct,...distractors]).map(o=>({label:o,correct:o===correct}));
   return {
     type:'identify',
@@ -376,8 +415,10 @@ function makeIdentify(){
     explanation:`Полоска разделена на ${d} равных частей, закрашено ${n}. Значит, закрашено ${n}/${d} всей полоски.`
   };
 }
-function makeAdd(){
-  const d=randInt(3,9);
+
+/* forcedD — только для диагностики; в обычном режиме undefined */
+function makeAdd(forcedD){
+  const d=forcedD || randInt(3,9);
   const n1=randInt(1,Math.floor((d-1)/2));
   const n2=randInt(1,Math.floor((d-1)/2));
   const sum=n1+n2, correct=`${sum}/${d}`;
@@ -386,12 +427,28 @@ function makeAdd(){
   if(sum+1<d) cand.add(`${sum+1}/${d}`);
   if(sum-1>0) cand.add(`${sum-1}/${d}`);
   cand.add(`${n1*n2}/${d}`);
-  cand.delete(correct);
-  let distractors=shuffle([...cand]).slice(0,3);
-  while(distractors.length<3){
-    const nn=randInt(1,d-1), c=`${nn}/${d}`;
-    if(c!==correct && !distractors.includes(c)) distractors.push(c);
+
+  let distractors = distinct(shuffle([...cand]), correct).slice(0,3);
+
+  let guard=0;
+  while(distractors.length<3 && guard++<300){
+    const dd=randInt(2,10);
+    const nn=randInt(1,dd-1);
+    const c=`${nn}/${dd}`;
+    if(fracEq(c,correct)) continue;
+    if(distractors.some(x=>fracEq(x,c))) continue;
+    distractors.push(c);
   }
+
+  if(distractors.length<3){
+    for(const c of FORCE_POOL){
+      if(distractors.length>=3) break;
+      if(fracEq(c,correct)) continue;
+      if(distractors.some(x=>fracEq(x,c))) continue;
+      distractors.push(c);
+    }
+  }
+
   const options=shuffle([correct,...distractors]).map(o=>({label:o,correct:o===correct}));
   return {
     type:'add',
@@ -410,6 +467,7 @@ function makeAdd(){
     explanation:`Знаменатели одинаковые, поэтому складываем числители: ${n1} + ${n2} = ${sum}. Получаем ${sum}/${d}.`
   };
 }
+
 function buildQuestionSet(){
   const gens=[makeCompare,makeCompare,makeIdentify,makeIdentify,makeAdd,makeAdd];
   const shuffled=shuffle(gens);
@@ -452,6 +510,9 @@ function renderStart(){
       <button class="btn btn-primary" data-action="start">Начать тренировку →</button>
     </section>
     ${history.length ? renderStatsCard(history) : ''}
+    <div class="app-footer">
+      <button class="link-btn" data-action="diagnostics" title="Прогнать 5000 генераций каждого типа">Диагностика</button>
+    </div>
   `;
 }
 
@@ -520,7 +581,6 @@ function renderHistoryChart(history){
   const totalW=last.length*barW+(last.length-1)*gap;
   const startX=(W-totalW)/2;
   let bars='';
-  // grid at 50%
   const gridY=TOP+BAR_MAX_H*0.5;
   bars+=`<line x1="0" y1="${gridY}" x2="${W}" y2="${gridY}" stroke="#e2e8f0" stroke-dasharray="4 4" stroke-width="1"/>`;
   last.forEach((run,i)=>{
@@ -636,6 +696,56 @@ function renderResult(){
     </section>`;
 }
 
+/* ---------- Диагностика ---------- */
+function runDiagnostics(){
+  const issues=[];
+  const checkQuestion=(q,name)=>{
+    if(!q.options || q.options.length!==4){
+      issues.push(`${name}: options.length=${q.options?q.options.length:'null'} (ожидалось 4)`);
+      return;
+    }
+    const correctCount=q.options.filter(o=>o.correct).length;
+    if(correctCount!==1) issues.push(`${name}: correct count=${correctCount} (ожидалось 1)`);
+    const labels=q.options.map(o=>o.label);
+    for(let a=0;a<labels.length;a++){
+      for(let b=a+1;b<labels.length;b++){
+        if(fracEq(labels[a],labels[b])) issues.push(`${name}: дубли по значению ${labels[a]} = ${labels[b]}`);
+      }
+    }
+  };
+  const test=()=>{
+    let start=performance.now();
+    for(let i=0;i<5000;i++){
+      if(i<200) continue; // пропускаем прогрев
+      checkQuestion(makeCompare(),'makeCompare');
+    }
+    const tCompare=performance.now()-start;
+
+    start=performance.now();
+    for(let i=0;i<5000;i++) checkQuestion(makeIdentify(),'makeIdentify');
+    const tIdentify=performance.now()-start;
+
+    start=performance.now();
+    for(let i=0;i<5000;i++) checkQuestion(makeAdd(),'makeAdd');
+    const tAdd=performance.now()-start;
+
+    // Явная регрессия бага: d=3 у makeAdd
+    start=performance.now();
+    for(let i=0;i<5000;i++) checkQuestion(makeAdd(3),'makeAdd(d=3)');
+    const tAddD3=performance.now()-start;
+
+    // Границы makeIdentify
+    start=performance.now();
+    for(let i=0;i<2000;i++){checkQuestion(makeIdentify(2),'makeIdentify(d=2)');}
+    for(let i=0;i<2000;i++){checkQuestion(makeIdentify(8),'makeIdentify(d=8)');}
+    const tIdentifyEdge=performance.now()-start;
+
+    return {tCompare,tIdentify,tAdd,tAddD3,tIdentifyEdge};
+  };
+  const times=test();
+  return {issues:issues.slice(0,10), total:issues.length, times};
+}
+
 /* ---------- Действия ---------- */
 function startGame(){
   state.questions=buildQuestionSet();
@@ -700,6 +810,21 @@ document.getElementById('app').addEventListener('click',e=>{
     if(confirm('Удалить всю историю прохождений? Это действие нельзя отменить.')){
       clearHistory(); render();
     }
+  }
+  else if(a==='diagnostics'){
+    btn.disabled=true; btn.textContent='Проверяем…';
+    // даём браузеру отрисовать состояние, потом запускаем тест
+    setTimeout(()=>{
+      const r=runDiagnostics();
+      const t=r.times;
+      const summary=`makeCompare: ${Math.round(t.tCompare)}мс | makeIdentify: ${Math.round(t.tIdentify)}мс | makeAdd: ${Math.round(t.tAdd)}мс\nmakeAdd(d=3): ${Math.round(t.tAddD3)}мс | makeIdentify(d=2/8): ${Math.round(t.tIdentifyEdge)}мс`;
+      if(r.total===0){
+        alert('✅ Диагностика пройдена\n\n'+summary);
+      } else {
+        alert(`⚠️ Найдено ${r.total} проблем\n\n${r.issues.join('\n')}\n\n${summary}`);
+      }
+      btn.disabled=false; btn.textContent='Диагностика';
+    },20);
   }
 });
 document.addEventListener('keydown',e=>{
