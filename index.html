@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Дроби · Наглядный тренажёр для 5–6 класса</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧮</text></svg>">
+<script>
+  // Anti-flash: ставим тему до первой отрисовки
+  (function(){
+    try{
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || (!t && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    }catch(e){}
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,21 +28,40 @@
   --rose:#f43f5e;--rose-dark:#e11d48;--amber:#f59e0b;
   --slate-50:#f8fafc;--slate-100:#f1f5f9;--slate-200:#e2e8f0;--slate-300:#cbd5e1;
   --slate-500:#64748b;--slate-600:#475569;--slate-700:#334155;--slate-900:#0f172a;
+  --surface:#ffffff;
   --radius:14px;--radius-lg:20px;--radius-xl:28px;
   --shadow:0 4px 12px rgba(15,23,42,.08);--shadow-lg:0 16px 40px rgba(15,23,42,.12);
+}
+html[data-theme="dark"]{
+  --surface:#1e293b;
+  --slate-50:#0f172a;
+  --slate-100:#334155;
+  --slate-200:#475569;
+  --slate-300:#64748b;
+  --slate-500:#94a3b8;
+  --slate-600:#cbd5e1;
+  --slate-700:#e2e8f0;
+  --slate-900:#f1f5f9;
+  --shadow:0 4px 12px rgba(0,0,0,.35);
+  --shadow-lg:0 16px 40px rgba(0,0,0,.45);
 }
 html{min-height:100%}
 body{
   font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   font-size:16px;line-height:1.5;color:var(--slate-900);
   background:linear-gradient(160deg,#eef2ff 0%,#faf5ff 50%,#fff1f2 100%);
-  background-attachment:fixed;min-height:100vh;padding:24px 16px;
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 32px;
   -webkit-font-smoothing:antialiased;
+  transition:background .3s ease;
+}
+html[data-theme="dark"] body{
+  background:linear-gradient(160deg,#0b1120 0%,#141434 50%,#2a0f1f 100%);
 }
 .app{max-width:680px;margin:0 auto}
 .hero,.card,.result{
-  background:#fff;border-radius:var(--radius-xl);
-  box-shadow:var(--shadow-lg);border:1px solid rgba(226,232,240,.8);
+  background:var(--surface);border-radius:var(--radius-xl);
+  box-shadow:var(--shadow-lg);border:1px solid var(--slate-200);
+  transition:background .3s ease,border-color .3s ease;
 }
 .hero{padding:48px 40px 40px;text-align:center}
 .badge{
@@ -40,11 +70,19 @@ body{
   padding:6px 14px;border-radius:100px;margin-bottom:20px;
   border:1px solid rgba(99,102,241,.2);
 }
+html[data-theme="dark"] .badge{
+  color:#c7d2fe;background:linear-gradient(135deg,rgba(99,102,241,.2),rgba(139,92,246,.2));
+  border-color:rgba(129,140,248,.35);
+}
 .hero h1{
   font-size:clamp(1.75rem,5vw,2.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.15;
   background:linear-gradient(135deg,var(--slate-900),var(--indigo-dark));
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   margin-bottom:16px;
+}
+html[data-theme="dark"] .hero h1{
+  background:linear-gradient(135deg,#f1f5f9,#a5b4fc);
+  -webkit-background-clip:text;background-clip:text;
 }
 .lead{font-size:1.0625rem;color:var(--slate-500);max-width:480px;margin:0 auto 32px;line-height:1.6}
 .features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:36px}
@@ -69,7 +107,7 @@ body{
 }
 .btn-primary:hover{box-shadow:0 8px 28px rgba(99,102,241,.45);transform:translateY(-1px)}
 .btn-secondary{
-  background:#fff;color:var(--slate-700);border:2px solid var(--slate-200);
+  background:var(--surface);color:var(--slate-700);border:2px solid var(--slate-200);
   padding:14px 28px;font-size:1rem;
 }
 .btn-secondary:hover{border-color:var(--slate-300);background:var(--slate-50)}
@@ -103,17 +141,20 @@ body{
 .compare-options{grid-template-columns:repeat(3,1fr)}
 .option{display:flex;align-items:center;justify-content:center;min-height:76px;
   padding:16px 12px;font-family:inherit;font-size:1.5rem;font-weight:700;color:var(--slate-900);
-  background:#fff;border:2px solid var(--slate-200);border-radius:var(--radius);cursor:pointer;
+  background:var(--surface);border:2px solid var(--slate-200);border-radius:var(--radius);cursor:pointer;
   transition:all .15s;-webkit-tap-highlight-color:transparent}
 .compare-options .option{font-size:2rem}
 .option:hover:not(:disabled){border-color:var(--indigo);background:rgba(99,102,241,.04);
   transform:translateY(-2px)}
+html[data-theme="dark"] .option:hover:not(:disabled){background:rgba(99,102,241,.15)}
 .option:active:not(:disabled){transform:translateY(0)}
 .option:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
 .option.correct{background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(5,150,105,.12));
   border-color:var(--emerald);color:var(--emerald-dark);animation:pop .35s ease}
+html[data-theme="dark"] .option.correct{color:#6ee7b7}
 .option.wrong{background:linear-gradient(135deg,rgba(244,63,94,.1),rgba(225,29,72,.1));
   border-color:var(--rose);color:var(--rose-dark);animation:shake .4s ease}
+html[data-theme="dark"] .option.wrong{color:#fda4af}
 .option.dimmed{opacity:.5}
 .option:disabled{cursor:default}
 @keyframes pop{50%{transform:scale(1.04)}}
@@ -125,6 +166,8 @@ body{
   border:1px solid rgba(16,185,129,.25)}
 .feedback.bad{background:linear-gradient(135deg,rgba(244,63,94,.06),rgba(245,158,11,.06));
   border:1px solid rgba(244,63,94,.2)}
+html[data-theme="dark"] .feedback.ok{background:linear-gradient(135deg,rgba(16,185,129,.15),rgba(5,150,105,.1))}
+html[data-theme="dark"] .feedback.bad{background:linear-gradient(135deg,rgba(244,63,94,.15),rgba(245,158,11,.1))}
 .feedback-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;
   justify-content:center;font-size:1.25rem;font-weight:800;flex-shrink:0;color:#fff}
 .feedback.ok .feedback-icon{background:var(--emerald)}
@@ -133,6 +176,8 @@ body{
 .feedback-title{font-weight:800;font-size:1.0625rem;margin-bottom:4px}
 .feedback.ok .feedback-title{color:var(--emerald-dark)}
 .feedback.bad .feedback-title{color:var(--rose-dark)}
+html[data-theme="dark"] .feedback.ok .feedback-title{color:#6ee7b7}
+html[data-theme="dark"] .feedback.bad .feedback-title{color:#fda4af}
 .feedback-text{color:var(--slate-700);font-size:.9375rem;line-height:1.5}
 .next-wrap{margin-top:20px;display:flex;justify-content:flex-end}
 .result{padding:48px 40px;text-align:center}
@@ -141,6 +186,10 @@ body{
 .result-score{font-size:3rem;font-weight:800;margin:20px 0;
   background:linear-gradient(135deg,var(--indigo),var(--violet));
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+html[data-theme="dark"] .result-score{
+  background:linear-gradient(135deg,#a5b4fc,#c4b5fd);
+  -webkit-background-clip:text;background-clip:text;
+}
 .result-streak{color:var(--amber);font-weight:700;margin-bottom:8px}
 .result-message{color:var(--slate-500);font-size:1.0625rem;margin-bottom:32px;line-height:1.5}
 .record-badge{
@@ -153,7 +202,7 @@ body{
 .personal-best{color:var(--slate-500);font-size:.9375rem;margin-bottom:8px;font-weight:600}
 .result-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px}
 .topic-breakdown{
-  margin-top:32px;padding-top:24px;border-top:1px solid var(--slate-100);text-align:left;
+  margin-top:32px;padding-top:24px;border-top:1px solid var(--slate-200);text-align:left;
 }
 .topic-breakdown h3{
   font-size:.8125rem;font-weight:700;color:var(--slate-500);
@@ -175,7 +224,21 @@ body{
 .dot-a{background:linear-gradient(135deg,var(--indigo),var(--violet))}
 .dot-b{background:linear-gradient(135deg,var(--amber),var(--rose))}
 
-/* ---------- History stats card ---------- */
+/* Retry mistakes block */
+.retry-mistakes{
+  display:flex;align-items:center;gap:14px;padding:16px 20px;margin:24px 0;
+  background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(99,102,241,.05));
+  border:1px solid rgba(139,92,246,.25);border-radius:var(--radius);
+}
+html[data-theme="dark"] .retry-mistakes{
+  background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(99,102,241,.1));
+}
+.retry-icon{font-size:1.5rem;line-height:1;flex-shrink:0}
+.retry-text{flex:1;font-size:.9375rem;color:var(--slate-700);line-height:1.4}
+.retry-text strong{font-weight:800;color:var(--slate-900)}
+.retry-btn{padding:10px 18px;font-size:.9375rem;flex-shrink:0}
+
+/* History stats card */
 .stats-card{margin-top:24px;padding:32px}
 .stats-header{display:flex;justify-content:space-between;align-items:center;
   margin-bottom:20px;gap:12px;flex-wrap:wrap}
@@ -183,11 +246,16 @@ body{
 .stats-count{font-size:.8125rem;font-weight:700;color:var(--slate-500);
   background:var(--slate-100);padding:4px 12px;border-radius:100px;white-space:nowrap}
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
-.stat{padding:16px 10px;background:linear-gradient(135deg,var(--slate-50),#fff);
-  border-radius:var(--radius);border:1px solid var(--slate-100);text-align:center}
+.stat{padding:16px 10px;background:linear-gradient(135deg,var(--slate-50),var(--surface));
+  border-radius:var(--radius);border:1px solid var(--slate-200);text-align:center}
+html[data-theme="dark"] .stat{background:linear-gradient(135deg,#0f172a,#1e293b)}
 .stat-value{font-size:1.5rem;font-weight:800;line-height:1.1;margin-bottom:4px;
   background:linear-gradient(135deg,var(--indigo),var(--violet));
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+html[data-theme="dark"] .stat-value{
+  background:linear-gradient(135deg,#a5b4fc,#c4b5fd);
+  -webkit-background-clip:text;background-clip:text;
+}
 .stat-label{font-size:.75rem;font-weight:600;color:var(--slate-500);
   text-transform:uppercase;letter-spacing:.03em}
 .chart-wrap{margin-bottom:20px}
@@ -202,10 +270,15 @@ body{
   background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(244,63,94,.05));
   border:1px solid rgba(245,158,11,.2);border-radius:var(--radius);margin-bottom:16px;
 }
-.weak-icon{font-size:1.5rem;line-height:1}
+html[data-theme="dark"] .weak-topic{
+  background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(244,63,94,.1));
+}
+.weak-icon{font-size:1.5rem;line-height:1;flex-shrink:0}
+.weak-info{flex:1;min-width:0}
 .weak-title{font-size:.75rem;font-weight:700;color:var(--slate-500);
   text-transform:uppercase;letter-spacing:.05em}
 .weak-body{font-size:.9375rem;color:var(--slate-700);margin-top:2px}
+.train-btn{padding:10px 16px;font-size:.875rem;flex-shrink:0}
 .stats-footer{text-align:center;padding-top:8px}
 .link-btn{background:none;border:none;color:var(--slate-500);
   font-size:.8125rem;font-weight:600;cursor:pointer;padding:6px 12px;
@@ -213,12 +286,26 @@ body{
   text-decoration-color:var(--slate-300);text-underline-offset:3px}
 .link-btn:hover{color:var(--rose);text-decoration-color:currentColor}
 .link-btn:focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
-.app-footer{margin-top:24px;text-align:center;padding:16px 0;
-  display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-.app-footer .link-btn{font-size:.75rem;color:var(--slate-500);text-decoration:none}
+.stats-footer .link-btn + .link-btn{margin-left:4px}
+
+/* Toolbar */
+.app-toolbar{
+  max-width:680px;margin:0 auto 12px;display:flex;justify-content:flex-end;
+  gap:8px;padding:0 4px;
+}
+.icon-btn{
+  width:42px;height:42px;border-radius:12px;
+  background:var(--surface);border:1px solid var(--slate-200);
+  color:var(--slate-700);cursor:pointer;font-size:1.125rem;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;-webkit-tap-highlight-color:transparent;
+}
+.icon-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.icon-btn:active{transform:translateY(0)}
+.icon-btn:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
 
 @media(max-width:480px){
-  body{padding:16px 12px}
+  body{padding:12px 12px 24px}
   .hero,.result{padding:32px 24px;border-radius:var(--radius-lg)}
   .card{padding:24px 20px;border-radius:var(--radius-lg)}
   .features{grid-template-columns:1fr;gap:8px}
@@ -238,14 +325,23 @@ body{
   .topic-name{font-size:.875rem}
   .result-actions{flex-direction:column;align-items:stretch}
   .result-actions .btn{width:100%}
+  .retry-mistakes{flex-wrap:wrap}
+  .retry-btn{width:100%}
+  .weak-topic{flex-wrap:wrap}
+  .train-btn{width:100%}
 }
 </style>
 </head>
 <body>
+<div class="app-toolbar" aria-label="Настройки">
+  <button id="btn-sound" class="icon-btn" data-action="toggle-sound" type="button" aria-label="Звук">🔊</button>
+  <button id="btn-theme" class="icon-btn" data-action="toggle-theme" type="button" aria-label="Сменить тему">🌙</button>
+</div>
 <main class="app" id="app" aria-live="polite"></main>
 <script>
 'use strict';
-/* ---------- Утилиты ---------- */
+
+/* ===================== УТИЛИТЫ ===================== */
 const randInt = (min,max)=>Math.floor(Math.random()*(max-min+1))+min;
 const shuffle = arr=>{const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 const fracHTML = (n,d)=>`<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span>`;
@@ -259,8 +355,8 @@ const plural = (n,one,few,many)=>{
   if(b===1) return one;
   return many;
 };
+const gcd = (a,b)=>b?gcd(b,a%b):a;
 
-/* ---------- Дроби: равенство по значению ---------- */
 const fracEq = (a,b)=>{
   try{
     const [an,ad]=String(a).split('/').map(Number);
@@ -280,14 +376,45 @@ const distinct = (list,correct)=>{
 };
 const FORCE_POOL = ['1/2','1/3','2/3','1/4','3/4','1/5','2/5','3/5','4/5','1/6','5/6','2/7','5/7','3/8','7/8'];
 
-/* ---------- Темы ---------- */
+/* ===================== ТЕМЫ ===================== */
 const TOPICS = {
-  compare:  {label:'Сравнение',        icon:'⚖️'},
-  identify: {label:'Дробь по картинке',icon:'🔍'},
-  add:      {label:'Сложение',         icon:'➕'}
+  compare:  {label:'Сравнение',         icon:'⚖️'},
+  identify: {label:'Дробь по картинке', icon:'🔍'},
+  add:      {label:'Сложение',          icon:'➕'},
+  simplify: {label:'Сокращение',        icon:'✂️'}
 };
 
-/* ---------- Хранилище истории ---------- */
+/* ===================== ЗВУК ===================== */
+let audioCtx = null;
+function initAudio(){
+  if(!audioCtx){
+    try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    catch{ return null; }
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+function playTone(freq, duration, type, gain, delay){
+  if(!state.soundOn) return;
+  type = type || 'sine'; gain = gain == null ? 0.08 : gain; delay = delay || 0;
+  const ctx = initAudio(); if(!ctx) return;
+  const t0 = ctx.currentTime + delay;
+  const osc = ctx.createOscillator();
+  const g = ctx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, t0);
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.linearRampToValueAtTime(gain, t0 + 0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+  osc.connect(g); g.connect(ctx.destination);
+  osc.start(t0); osc.stop(t0 + duration + 0.05);
+}
+const playCorrect = () => { playTone(660, 0.1); playTone(880, 0.14, 'sine', 0.08, 0.08); };
+const playWrong   = () => { playTone(230, 0.14, 'triangle', 0.07); playTone(180, 0.2, 'triangle', 0.06, 0.1); };
+const playComplete= () => { playTone(523,0.12); playTone(659,0.12,'sine',0.08,0.1); playTone(784,0.22,'sine',0.08,0.2); };
+const playClick   = () => { playTone(420, 0.03, 'sine', 0.03); };
+
+/* ===================== ХРАНИЛИЩЕ ===================== */
 const STORAGE_KEY = 'fractions-trainer-history-v1';
 function loadHistory(){
   try{const raw=localStorage.getItem(STORAGE_KEY);const h=raw?JSON.parse(raw):[];return Array.isArray(h)?h:[];}
@@ -302,8 +429,12 @@ function saveRun(run){
   }catch{}
 }
 function clearHistory(){try{localStorage.removeItem(STORAGE_KEY);}catch{}}
+
+function emptyAgg(){
+  return {compare:{correct:0,total:0},identify:{correct:0,total:0},add:{correct:0,total:0},simplify:{correct:0,total:0}};
+}
 function aggregateTopics(runs){
-  const agg={compare:{correct:0,total:0},identify:{correct:0,total:0},add:{correct:0,total:0}};
+  const agg=emptyAgg();
   runs.forEach(run=>{
     if(!run.byTopic) return;
     Object.keys(run.byTopic).forEach(k=>{
@@ -326,7 +457,7 @@ function findWeakest(agg){
   return weakest;
 }
 
-/* ---------- Генераторы заданий ---------- */
+/* ===================== ГЕНЕРАТОРЫ ===================== */
 function makeCompare(){
   if(Math.random()<0.15){
     const d=randInt(2,5), n=randInt(1,d-1);
@@ -372,7 +503,6 @@ function buildCompare(a,b,isEqual){
   };
 }
 
-/* forcedD — только для диагностики; в обычном режиме undefined */
 function makeIdentify(forcedD){
   const d=forcedD || randInt(2,8);
   const n=randInt(1,d-1);
@@ -386,7 +516,6 @@ function makeIdentify(forcedD){
   if(n-1>0) cand.add(`${n-1}/${d}`);
 
   let distractors = distinct(shuffle([...cand]), correct).slice(0,3);
-
   let guard=0;
   while(distractors.length<3 && guard++<300){
     const dd=randInt(2,10);
@@ -396,7 +525,6 @@ function makeIdentify(forcedD){
     if(distractors.some(x=>fracEq(x,c))) continue;
     distractors.push(c);
   }
-
   if(distractors.length<3){
     for(const c of FORCE_POOL){
       if(distractors.length>=3) break;
@@ -416,7 +544,6 @@ function makeIdentify(forcedD){
   };
 }
 
-/* forcedD — только для диагностики; в обычном режиме undefined */
 function makeAdd(forcedD){
   const d=forcedD || randInt(3,9);
   const n1=randInt(1,Math.floor((d-1)/2));
@@ -429,7 +556,6 @@ function makeAdd(forcedD){
   cand.add(`${n1*n2}/${d}`);
 
   let distractors = distinct(shuffle([...cand]), correct).slice(0,3);
-
   let guard=0;
   while(distractors.length<3 && guard++<300){
     const dd=randInt(2,10);
@@ -439,7 +565,6 @@ function makeAdd(forcedD){
     if(distractors.some(x=>fracEq(x,c))) continue;
     distractors.push(c);
   }
-
   if(distractors.length<3){
     for(const c of FORCE_POOL){
       if(distractors.length>=3) break;
@@ -468,38 +593,135 @@ function makeAdd(forcedD){
   };
 }
 
-function buildQuestionSet(){
-  const gens=[makeCompare,makeCompare,makeIdentify,makeIdentify,makeAdd,makeAdd];
-  const shuffled=shuffle(gens);
-  const qs=[];
-  for(let i=0;i<8;i++) qs.push(shuffled[i%shuffled.length]());
-  return qs;
+/* Сокращение: генерим несократимую a/b и умножаем на k, чтобы было что сокращать */
+const COPRIME_PAIRS = [[1,2],[1,3],[2,3],[1,4],[3,4],[1,5],[2,5],[3,5],[4,5],[1,6],[5,6],[1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,8],[3,8],[5,8],[7,8],[1,9],[2,9],[4,9],[5,9],[7,9],[8,9]];
+function makeSimplify(){
+  const [a, b] = COPRIME_PAIRS[randInt(0, COPRIME_PAIRS.length - 1)];
+  const k = randInt(2, 3);
+  const n = a * k, d = b * k;
+  const g = gcd(n, d); // == k, т.к. a, b взаимно просты
+  const correct = `${a}/${b}`;
+
+  const cand = new Set();
+  // Типичная ошибка: сократить только числитель или только знаменатель
+  if (n % g === 0) { const c = `${n/g}/${d}`; if (!fracEq(c, correct)) cand.add(c); }
+  if (d % g === 0) { const c = `${n}/${d/g}`; if (!fracEq(c, correct)) cand.add(c); }
+  // Ошибка: вычитание вместо деления
+  if (n - g > 0 && d - g > 0) { const c = `${n-g}/${d-g}`; if (!fracEq(c, correct)) cand.add(c); }
+  // Ошибка: сократить на неправильный делитель (если он подходит)
+  if (k > 2 && n % (k-1) === 0 && d % (k-1) === 0) { const c = `${n/(k-1)}/${d/(k-1)}`; if (!fracEq(c, correct)) cand.add(c); }
+  if (n % (k+1) === 0 && d % (k+1) === 0) { const c = `${n/(k+1)}/${d/(k+1)}`; if (!fracEq(c, correct)) cand.add(c); }
+  // Плаузибельные случайные
+  if (a+1 < b) { const c = `${a+1}/${b}`; if (!fracEq(c, correct)) cand.add(c); }
+  { const c = `${a}/${b+1}`; if (!fracEq(c, correct)) cand.add(c); }
+
+  let distractors = distinct(shuffle([...cand]), correct).slice(0, 3);
+  let guard = 0;
+  while (distractors.length < 3 && guard++ < 300) {
+    const dd = randInt(2, 12);
+    const nn = randInt(1, dd - 1);
+    const c = `${nn}/${dd}`;
+    if (fracEq(c, correct)) continue;
+    if (distractors.some(x => fracEq(x, c))) continue;
+    distractors.push(c);
+  }
+  if (distractors.length < 3) {
+    for (const c of FORCE_POOL) {
+      if (distractors.length >= 3) break;
+      if (fracEq(c, correct)) continue;
+      if (distractors.some(x => fracEq(x, c))) continue;
+      distractors.push(c);
+    }
+  }
+
+  const options = shuffle([correct, ...distractors]).map(o => ({label:o, correct:o === correct}));
+  const visual = d <= 12 ? `<div class="identify-visual">${fractionBar(n, d)}</div>` : '';
+
+  return {
+    type:'simplify',
+    prompt:`Сократи дробь ${fracHTML(n, d)}:`,
+    visual,
+    options,
+    explanation:`И числитель, и знаменатель делятся на ${g}. Делим: ${n}÷${g}=${a}, ${d}÷${g}=${b}. Получаем ${a}/${b}.`
+  };
 }
 
-/* ---------- Состояние ---------- */
-const state={
-  screen:'start', questions:[], current:0, score:0,
-  bestStreak:0, streak:0, answered:false, selectedIndex:null,
-  byTopic:{},
-  isRecord:false, prevBest:null
+function buildQuestionSet(topicFilter){
+  const pool = [];
+  if (topicFilter) {
+    const map = {compare: makeCompare, identify: makeIdentify, add: makeAdd, simplify: makeSimplify};
+    const gen = map[topicFilter] || makeCompare;
+    for (let i = 0; i < 8; i++) pool.push(gen());
+  } else {
+    const gens = [
+      makeCompare, makeCompare,
+      makeIdentify, makeIdentify,
+      makeAdd, makeAdd,
+      makeSimplify, makeSimplify
+    ];
+    const shuffled = shuffle(gens);
+    for (let i = 0; i < 8; i++) pool.push(shuffled[i]());
+  }
+  return pool;
+}
+
+/* ===================== СОСТОЯНИЕ ===================== */
+const state = {
+  screen: 'start',
+  questions: [], current: 0, score: 0,
+  bestStreak: 0, streak: 0, answered: false, selectedIndex: null,
+  byTopic: {},
+  isRecord: false, prevBest: null,
+  isRetry: false,
+  wrongQuestions: [],
+  theme: 'light',
+  soundOn: true
 };
 
-/* ---------- Рендеринг ---------- */
+/* ===================== ТЕМА / ЗВУК ===================== */
+function syncToolbar(){
+  const bs = document.getElementById('btn-sound');
+  const bt = document.getElementById('btn-theme');
+  if (bs) {
+    bs.textContent = state.soundOn ? '🔊' : '🔇';
+    bs.setAttribute('aria-label', state.soundOn ? 'Выключить звук' : 'Включить звук');
+    bs.title = state.soundOn ? 'Звук включён' : 'Звук выключен';
+  }
+  if (bt) {
+    bt.textContent = state.theme === 'dark' ? '☀️' : '🌙';
+    bt.setAttribute('aria-label', state.theme === 'dark' ? 'Светлая тема' : 'Тёмная тема');
+    bt.title = state.theme === 'dark' ? 'Светлая тема' : 'Тёмная тема';
+  }
+}
+function toggleTheme(){
+  state.theme = state.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', state.theme);
+  try{ localStorage.setItem('theme', state.theme); }catch{}
+  syncToolbar();
+}
+function toggleSound(){
+  state.soundOn = !state.soundOn;
+  try{ localStorage.setItem('sound', state.soundOn ? '1' : '0'); }catch{}
+  syncToolbar();
+  if (state.soundOn) playClick();
+}
+
+/* ===================== РЕНДЕР ===================== */
 function render(){
-  const app=document.getElementById('app');
-  if(state.screen==='start') app.innerHTML=renderStart();
-  else if(state.screen==='quiz') app.innerHTML=renderQuiz();
-  else app.innerHTML=renderResult();
+  const app = document.getElementById('app');
+  if (state.screen === 'start') app.innerHTML = renderStart();
+  else if (state.screen === 'quiz') app.innerHTML = renderQuiz();
+  else app.innerHTML = renderResult();
 }
 
 function renderStart(){
-  const history=loadHistory();
+  const history = loadHistory();
   return `
     <section class="hero">
       <div class="badge">Математика · 5–6 класс</div>
       <h1>Дроби без стресса</h1>
       <p class="lead">
-        8 коротких заданий, чтобы разобраться в сравнении, записи и сложении дробей.
+        8 коротких заданий, чтобы разобраться в сравнении, записи, сложении и сокращении дробей.
         Наглядные полоски и понятное объяснение после каждого ответа — а не просто «правильно / неправильно».
       </p>
       <div class="features">
@@ -510,19 +732,16 @@ function renderStart(){
       <button class="btn btn-primary" data-action="start">Начать тренировку →</button>
     </section>
     ${history.length ? renderStatsCard(history) : ''}
-    <div class="app-footer">
-      <button class="link-btn" data-action="diagnostics" title="Прогнать 5000 генераций каждого типа">Диагностика</button>
-    </div>
   `;
 }
 
 function renderStatsCard(history){
-  const attempts=history.length;
-  const best=Math.max(...history.map(r=>r.score/r.total));
-  const avg=history.reduce((s,r)=>s+r.score/r.total,0)/attempts;
-  const agg=aggregateTopics(history);
-  const weak=findWeakest(agg);
-  const lastN=Math.min(history.length,10);
+  const attempts = history.length;
+  const best = Math.max(...history.map(r => r.score / r.total));
+  const avg = history.reduce((s, r) => s + r.score / r.total, 0) / attempts;
+  const agg = aggregateTopics(history);
+  const weak = findWeakest(agg);
+  const lastN = Math.min(history.length, 10);
 
   return `
     <section class="card stats-card">
@@ -532,11 +751,11 @@ function renderStatsCard(history){
       </div>
       <div class="stats-grid">
         <div class="stat">
-          <div class="stat-value">${Math.round(best*100)}%</div>
+          <div class="stat-value">${Math.round(best * 100)}%</div>
           <div class="stat-label">Лучший</div>
         </div>
         <div class="stat">
-          <div class="stat-value">${Math.round(avg*100)}%</div>
+          <div class="stat-value">${Math.round(avg * 100)}%</div>
           <div class="stat-label">В среднем</div>
         </div>
         <div class="stat">
@@ -553,116 +772,122 @@ function renderStatsCard(history){
           <span><i class="dot" style="background:var(--emerald)"></i>≥75%</span>
         </div>
       </div>
-      ${weak?renderWeakTopic(weak):''}
+      ${weak ? renderWeakTopic(weak) : ''}
       <div class="stats-footer">
-        <button class="link-btn" data-action="reset-history">Сбросить историю</button>
+        <button class="link-btn" data-action="export-history">Экспорт</button>
+        <button class="link-btn" data-action="reset-history">Сбросить</button>
       </div>
     </section>
   `;
 }
 
 function renderWeakTopic(weak){
-  const t=TOPICS[weak.topic];
+  const t = TOPICS[weak.topic];
   return `
     <div class="weak-topic">
       <span class="weak-icon">🎯</span>
-      <div>
+      <div class="weak-info">
         <div class="weak-title">Слабое место</div>
-        <div class="weak-body">${t.icon} <strong>${t.label}</strong> — ${weak.correct} из ${weak.total} верно (${Math.round(weak.ratio*100)}%)</div>
+        <div class="weak-body">${t.icon} <strong>${t.label}</strong> — ${weak.correct} из ${weak.total} верно (${Math.round(weak.ratio * 100)}%)</div>
       </div>
+      <button class="btn btn-secondary train-btn" data-action="train-topic" data-topic="${weak.topic}">Тренировать</button>
     </div>
   `;
 }
 
 function renderHistoryChart(history){
-  const last=history.slice(-10);
-  const W=300, H=120, TOP=20, BOTTOM=110, BAR_MAX_H=BOTTOM-TOP;
-  const barW=22, gap=6;
-  const totalW=last.length*barW+(last.length-1)*gap;
-  const startX=(W-totalW)/2;
-  let bars='';
-  const gridY=TOP+BAR_MAX_H*0.5;
-  bars+=`<line x1="0" y1="${gridY}" x2="${W}" y2="${gridY}" stroke="#e2e8f0" stroke-dasharray="4 4" stroke-width="1"/>`;
-  last.forEach((run,i)=>{
-    const pct=run.score/run.total;
-    const barH=Math.max(4,pct*BAR_MAX_H);
-    const x=startX+i*(barW+gap);
-    const y=BOTTOM-barH;
-    const color=pct>=0.75?'#10b981':pct>=0.5?'#f59e0b':'#f43f5e';
-    const when=new Date(run.ts||Date.now()).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-    bars+=`<rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="3" fill="${color}">
+  const last = history.slice(-10);
+  const W = 300, H = 120, TOP = 20, BOTTOM = 110, BAR_MAX_H = BOTTOM - TOP;
+  const barW = 22, gap = 6;
+  const totalW = last.length * barW + (last.length - 1) * gap;
+  const startX = (W - totalW) / 2;
+  let bars = '';
+  const gridY = TOP + BAR_MAX_H * 0.5;
+  bars += `<line x1="0" y1="${gridY}" x2="${W}" y2="${gridY}" style="stroke:var(--slate-200)" stroke-dasharray="4 4" stroke-width="1"/>`;
+  last.forEach((run, i) => {
+    const pct = run.score / run.total;
+    const barH = Math.max(4, pct * BAR_MAX_H);
+    const x = startX + i * (barW + gap);
+    const y = BOTTOM - barH;
+    const color = pct >= 0.75 ? '#10b981' : pct >= 0.5 ? '#f59e0b' : '#f43f5e';
+    const when = new Date(run.ts || Date.now()).toLocaleString('ru-RU', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'});
+    bars += `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="3" fill="${color}">
       <title>${when} — ${run.score}/${run.total} (${Math.round(pct*100)}%)</title>
     </rect>`;
-    bars+=`<text x="${x+barW/2}" y="${y-4}" text-anchor="middle" font-size="9" font-weight="700"
-             fill="#475569" font-family="Manrope,sans-serif">${Math.round(pct*100)}</text>`;
+    bars += `<text x="${x + barW/2}" y="${y - 4}" text-anchor="middle" font-size="9" font-weight="700"
+             style="fill:var(--slate-600);font-family:Manrope,sans-serif">${Math.round(pct*100)}</text>`;
   });
   return `<svg viewBox="0 0 ${W} ${H}" class="history-chart" role="img" aria-label="История прохождений">${bars}</svg>`;
 }
 
 function renderQuiz(){
-  const q=state.questions[state.current];
-  const total=state.questions.length;
-  const progress=((state.current+(state.answered?1:0))/total)*100;
-  const isCompare=q.type==='compare';
+  const q = state.questions[state.current];
+  const total = state.questions.length;
+  const progress = ((state.current + (state.answered ? 1 : 0)) / total) * 100;
+  const isCompare = q.type === 'compare';
   return `
     <div class="quiz-header">
       <div class="quiz-meta">
-        <span class="quiz-step">Задание ${state.current+1} из ${total}</span>
+        <span class="quiz-step">Задание ${state.current + 1} из ${total}${state.isRetry ? ' · закрепление' : ''}</span>
         <span class="quiz-score">⭐ ${state.score}</span>
       </div>
       <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
     </div>
     <section class="card">
       <div class="question-prompt">${q.prompt}</div>
-      ${q.visual||''}
-      <div class="options ${isCompare?'compare-options':'fraction-options'}">
-        ${q.options.map((o,i)=>renderOption(o,i)).join('')}
+      ${q.visual || ''}
+      <div class="options ${isCompare ? 'compare-options' : 'fraction-options'}">
+        ${q.options.map((o, i) => renderOption(o, i)).join('')}
       </div>
-      ${state.answered?renderFeedback(q):''}
+      ${state.answered ? renderFeedback(q) : ''}
     </section>`;
 }
 
-function renderOption(o,i){
-  let cls='option';
-  if(state.answered){
-    if(o.correct) cls+=' correct';
-    else if(i===state.selectedIndex) cls+=' wrong';
-    else cls+=' dimmed';
+function renderOption(o, i){
+  let cls = 'option';
+  if (state.answered) {
+    if (o.correct) cls += ' correct';
+    else if (i === state.selectedIndex) cls += ' wrong';
+    else cls += ' dimmed';
   }
-  return `<button class="${cls}" data-action="answer" data-index="${i}" ${state.answered?'disabled':''}>${renderLabel(o.label)}</button>`;
+  return `<button class="${cls}" data-action="answer" data-index="${i}" ${state.answered ? 'disabled' : ''}>${renderLabel(o.label)}</button>`;
 }
 
 function renderFeedback(q){
-  const ok=q.options[state.selectedIndex].correct;
-  const isLast=state.current===state.questions.length-1;
+  const ok = q.options[state.selectedIndex].correct;
+  const isLast = state.current === state.questions.length - 1;
   return `
-    <div class="feedback ${ok?'ok':'bad'}">
-      <div class="feedback-icon">${ok?'✓':'✗'}</div>
+    <div class="feedback ${ok ? 'ok' : 'bad'}">
+      <div class="feedback-icon">${ok ? '✓' : '✗'}</div>
       <div class="feedback-body">
-        <div class="feedback-title">${ok?'Верно!':'Не совсем'}</div>
+        <div class="feedback-title">${ok ? 'Верно!' : 'Не совсем'}</div>
         <div class="feedback-text">${q.explanation}</div>
       </div>
     </div>
     <div class="next-wrap">
       <button class="btn btn-primary" data-action="next">
-        ${isLast?'Показать результат →':'Следующее задание →'}
+        ${isLast ? 'Показать результат →' : 'Следующее задание →'}
       </button>
     </div>`;
 }
 
 function renderResult(){
-  const total=state.questions.length;
-  const pct=Math.round((state.score/total)*100);
-  let emoji,title,message;
-  if(pct===100){emoji='🏆';title='Идеально!';message='Все 8 из 8. Ты уверенно разбираешься в дробях!';}
-  else if(pct>=75){emoji='🌟';title='Отличный результат!';message='Дроби почти освоены. Ещё немного практики — и будет идеально.';}
-  else if(pct>=50){emoji='👍';title='Хороший старт!';message='Уже многое получается. Пройди ещё раз — и результат вырастет.';}
-  else{emoji='💪';title='Главное — практика';message='Дроби — это навык. Попробуй ещё раз: с каждым проходом будет понятнее.';}
+  const total = state.questions.length;
+  const pct = Math.round((state.score / total) * 100);
+  const isRetry = state.isRetry;
 
-  const topicsHtml=Object.entries(state.byTopic).map(([k,v])=>{
-    const t=TOPICS[k];
-    const p=v.total?Math.round(v.correct/v.total*100):0;
-    const color=p>=75?'var(--emerald)':p>=50?'var(--amber)':'var(--rose)';
+  let emoji, title, message;
+  if (isRetry && pct === 100) { emoji = '💪'; title = 'Закреплено!'; message = 'Все ошибки разобраны — теперь ты точно понимаешь эти задания.'; }
+  else if (pct === 100) { emoji = '🏆'; title = 'Идеально!'; message = 'Все верно. Ты уверенно разбираешься в дробях!'; }
+  else if (pct >= 75) { emoji = '🌟'; title = 'Отличный результат!'; message = 'Дроби почти освоены. Ещё немного практики — и будет идеально.'; }
+  else if (pct >= 50) { emoji = '👍'; title = 'Хороший старт!'; message = 'Уже многое получается. Пройди ещё раз — и результат вырастет.'; }
+  else { emoji = '💪'; title = 'Главное — практика'; message = 'Дроби — это навык. Попробуй ещё раз: с каждым проходом будет понятнее.'; }
+
+  const topicsHtml = Object.entries(state.byTopic).map(([k, v]) => {
+    if (!TOPICS[k]) return '';
+    const t = TOPICS[k];
+    const p = v.total ? Math.round(v.correct / v.total * 100) : 0;
+    const color = p >= 75 ? 'var(--emerald)' : p >= 50 ? 'var(--amber)' : 'var(--rose)';
     return `
       <div class="topic-row">
         <span class="topic-icon">${t.icon}</span>
@@ -673,22 +898,30 @@ function renderResult(){
     `;
   }).join('');
 
+  const recordBlock = !isRetry ? (
+    state.isRecord
+      ? '<div class="record-badge">🏆 Новый рекорд!</div>'
+      : (state.prevBest !== null ? `<div class="personal-best">Личный рекорд: ${Math.round(state.prevBest * 100)}%</div>` : '')
+  ) : '';
+
+  const retryBlock = state.wrongQuestions.length > 0 ? `
+    <div class="retry-mistakes">
+      <span class="retry-icon">🔁</span>
+      <div class="retry-text"><strong>${state.wrongQuestions.length} ${plural(state.wrongQuestions.length,'ошибка','ошибки','ошибок')}</strong> — закрепим?</div>
+      <button class="btn btn-secondary retry-btn" data-action="retry-mistakes">Повторить</button>
+    </div>
+  ` : '';
+
   return `
     <section class="result">
       <span class="result-emoji">${emoji}</span>
       <h2>${title}</h2>
-      ${state.isRecord?'<div class="record-badge">🏆 Новый рекорд!</div>':(
-        state.prevBest!==null?`<div class="personal-best">Личный рекорд: ${Math.round(state.prevBest*100)}%</div>`:''
-      )}
+      ${recordBlock}
       <div class="result-score">${state.score} / ${total}</div>
-      ${state.bestStreak>=3?`<p class="result-streak">🔥 Лучшая серия подряд: ${state.bestStreak}</p>`:''}
+      ${state.bestStreak >= 3 ? `<p class="result-streak">🔥 Лучшая серия подряд: ${state.bestStreak}</p>` : ''}
       <p class="result-message">${message}</p>
-      ${topicsHtml?`
-        <div class="topic-breakdown">
-          <h3>Результаты по темам</h3>
-          ${topicsHtml}
-        </div>
-      `:''}
+      ${retryBlock}
+      ${topicsHtml ? `<div class="topic-breakdown"><h3>Результаты по темам</h3>${topicsHtml}</div>` : ''}
       <div class="result-actions">
         <button class="btn btn-primary" data-action="restart">Пройти ещё раз →</button>
         <button class="btn btn-secondary" data-action="home">К истории</button>
@@ -696,147 +929,213 @@ function renderResult(){
     </section>`;
 }
 
-/* ---------- Диагностика ---------- */
-function runDiagnostics(){
-  const issues=[];
-  const checkQuestion=(q,name)=>{
-    if(!q.options || q.options.length!==4){
-      issues.push(`${name}: options.length=${q.options?q.options.length:'null'} (ожидалось 4)`);
-      return;
-    }
-    const correctCount=q.options.filter(o=>o.correct).length;
-    if(correctCount!==1) issues.push(`${name}: correct count=${correctCount} (ожидалось 1)`);
-    const labels=q.options.map(o=>o.label);
-    for(let a=0;a<labels.length;a++){
-      for(let b=a+1;b<labels.length;b++){
-        if(fracEq(labels[a],labels[b])) issues.push(`${name}: дубли по значению ${labels[a]} = ${labels[b]}`);
-      }
-    }
-  };
-  const test=()=>{
-    let start=performance.now();
-    for(let i=0;i<5000;i++){
-      if(i<200) continue; // пропускаем прогрев
-      checkQuestion(makeCompare(),'makeCompare');
-    }
-    const tCompare=performance.now()-start;
-
-    start=performance.now();
-    for(let i=0;i<5000;i++) checkQuestion(makeIdentify(),'makeIdentify');
-    const tIdentify=performance.now()-start;
-
-    start=performance.now();
-    for(let i=0;i<5000;i++) checkQuestion(makeAdd(),'makeAdd');
-    const tAdd=performance.now()-start;
-
-    // Явная регрессия бага: d=3 у makeAdd
-    start=performance.now();
-    for(let i=0;i<5000;i++) checkQuestion(makeAdd(3),'makeAdd(d=3)');
-    const tAddD3=performance.now()-start;
-
-    // Границы makeIdentify
-    start=performance.now();
-    for(let i=0;i<2000;i++){checkQuestion(makeIdentify(2),'makeIdentify(d=2)');}
-    for(let i=0;i<2000;i++){checkQuestion(makeIdentify(8),'makeIdentify(d=8)');}
-    const tIdentifyEdge=performance.now()-start;
-
-    return {tCompare,tIdentify,tAdd,tAddD3,tIdentifyEdge};
-  };
-  const times=test();
-  return {issues:issues.slice(0,10), total:issues.length, times};
-}
-
-/* ---------- Действия ---------- */
-function startGame(){
-  state.questions=buildQuestionSet();
-  state.current=0; state.score=0; state.streak=0; state.bestStreak=0;
-  state.answered=false; state.selectedIndex=null; state.screen='quiz';
-  state.byTopic={};
-  state.isRecord=false; state.prevBest=null;
+/* ===================== ИГРОВОЙ ЦИКЛ ===================== */
+function startGame(topicFilter){
+  state.questions = buildQuestionSet(topicFilter);
+  state.current = 0; state.score = 0; state.streak = 0; state.bestStreak = 0;
+  state.answered = false; state.selectedIndex = null; state.screen = 'quiz';
+  state.byTopic = {};
+  state.isRecord = false; state.prevBest = null;
+  state.isRetry = false;
+  state.wrongQuestions = [];
   render();
 }
+
+function retryMistakes(){
+  if (!state.wrongQuestions.length) return;
+  state.questions = state.wrongQuestions.slice();
+  state.wrongQuestions = [];
+  state.current = 0; state.score = 0; state.streak = 0; state.bestStreak = 0;
+  state.answered = false; state.selectedIndex = null; state.screen = 'quiz';
+  state.byTopic = {};
+  state.isRetry = true;
+  render();
+}
+
 function answer(index){
-  if(state.answered) return;
-  const q=state.questions[state.current];
-  state.answered=true;
-  state.selectedIndex=index;
-  const ok=q.options[index].correct;
-  const topic=q.type;
-  if(!state.byTopic[topic]) state.byTopic[topic]={correct:0,total:0};
+  if (state.answered) return;
+  const q = state.questions[state.current];
+  state.answered = true;
+  state.selectedIndex = index;
+  const ok = q.options[index].correct;
+  const topic = q.type;
+  if (!state.byTopic[topic]) state.byTopic[topic] = {correct:0, total:0};
   state.byTopic[topic].total++;
-  if(ok){
+  if (ok) {
     state.score++;
     state.streak++;
     state.byTopic[topic].correct++;
-    if(state.streak>state.bestStreak) state.bestStreak=state.streak;
+    if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+    playCorrect();
   } else {
-    state.streak=0;
+    state.streak = 0;
+    state.wrongQuestions.push(q);
+    playWrong();
   }
   render();
 }
+
 function next(){
-  if(!state.answered) return;
-  if(state.current===state.questions.length-1){
-    const prevHistory=loadHistory();
-    const prevBest=prevHistory.length?Math.max(...prevHistory.map(r=>r.score/r.total)):0;
-    const currentPct=state.score/state.questions.length;
-    state.isRecord=prevHistory.length>0 && currentPct>prevBest;
-    state.prevBest=prevHistory.length>0?prevBest:null;
-    saveRun({
-      ts:Date.now(),
-      score:state.score,
-      total:state.questions.length,
-      byTopic:state.byTopic
-    });
-    state.screen='result';
+  if (!state.answered) return;
+  if (state.current === state.questions.length - 1) {
+    if (!state.isRetry) {
+      const prevHistory = loadHistory();
+      const prevBest = prevHistory.length ? Math.max(...prevHistory.map(r => r.score / r.total)) : 0;
+      const currentPct = state.score / state.questions.length;
+      state.isRecord = prevHistory.length > 0 && currentPct > prevBest;
+      state.prevBest = prevHistory.length > 0 ? prevBest : null;
+      saveRun({
+        ts: Date.now(),
+        score: state.score,
+        total: state.questions.length,
+        byTopic: state.byTopic
+      });
+    }
+    state.screen = 'result';
+    playComplete();
   } else {
     state.current++;
-    state.answered=false;
-    state.selectedIndex=null;
+    state.answered = false;
+    state.selectedIndex = null;
   }
   render();
 }
 
-/* ---------- События ---------- */
-document.getElementById('app').addEventListener('click',e=>{
-  const btn=e.target.closest('[data-action]');
-  if(!btn) return;
-  const a=btn.dataset.action;
-  if(a==='start'||a==='restart') startGame();
-  else if(a==='answer') answer(Number(btn.dataset.index));
-  else if(a==='next') next();
-  else if(a==='home'){ state.screen='start'; render(); }
-  else if(a==='reset-history'){
-    if(confirm('Удалить всю историю прохождений? Это действие нельзя отменить.')){
-      clearHistory(); render();
+/* ===================== ЭКСПОРТ ===================== */
+function exportHistory(){
+  const data = loadHistory();
+  if (!data.length) return;
+  try {
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `fractions-history-${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  } catch (e) {}
+}
+
+/* ===================== ДИАГНОСТИКА ===================== */
+function runDiagnostics(){
+  const issues = [];
+  const checkQuestion = (q, name) => {
+    const expected = q.type === 'compare' ? 3 : 4;
+    if (!q.options || q.options.length !== expected) {
+      issues.push(`${name}: options.length=${q.options ? q.options.length : 'null'} (ожидалось ${expected})`);
+      return;
+    }
+    const correctCount = q.options.filter(o => o.correct).length;
+    if (correctCount !== 1) issues.push(`${name}: correct count=${correctCount} (ожидалось 1)`);
+    const labels = q.options.map(o => o.label);
+    for (let a = 0; a < labels.length; a++) {
+      for (let b = a + 1; b < labels.length; b++) {
+        if (fracEq(labels[a], labels[b])) issues.push(`${name}: дубли по значению ${labels[a]} = ${labels[b]}`);
+      }
+    }
+  };
+  const N = 2000;
+  let t;
+  t = performance.now();
+  for (let i = 0; i < N; i++) { if (i < 200) continue; checkQuestion(makeCompare(), 'makeCompare'); }
+  const tCompare = performance.now() - t;
+  t = performance.now();
+  for (let i = 0; i < N; i++) checkQuestion(makeIdentify(), 'makeIdentify');
+  const tIdentify = performance.now() - t;
+  t = performance.now();
+  for (let i = 0; i < N; i++) checkQuestion(makeAdd(), 'makeAdd');
+  const tAdd = performance.now() - t;
+  t = performance.now();
+  for (let i = 0; i < N; i++) checkQuestion(makeAdd(3), 'makeAdd(d=3)');
+  const tAddD3 = performance.now() - t;
+  t = performance.now();
+  for (let i = 0; i < N; i++) checkQuestion(makeSimplify(), 'makeSimplify');
+  const tSimplify = performance.now() - t;
+  t = performance.now();
+  for (let i = 0; i < 1000; i++) checkQuestion(makeIdentify(2), 'makeIdentify(d=2)');
+  for (let i = 0; i < 1000; i++) checkQuestion(makeIdentify(8), 'makeIdentify(d=8)');
+  const tIdentifyEdge = performance.now() - t;
+  return {
+    issues: issues.slice(0, 10),
+    total: issues.length,
+    times: {tCompare, tIdentify, tAdd, tAddD3, tSimplify, tIdentifyEdge}
+  };
+}
+window.diag = function(){
+  const r = runDiagnostics();
+  console.log('[diag]', r.total === 0 ? '✅ OK' : `⚠️ ${r.total} проблем`);
+  console.log('[diag] issues:', r.issues);
+  console.table(r.times);
+  return r;
+};
+
+/* ===================== СОБЫТИЯ ===================== */
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-action]');
+  if (!btn) return;
+  const a = btn.dataset.action;
+
+  if (a === 'toggle-theme') { toggleTheme(); return; }
+  if (a === 'toggle-sound') { toggleSound(); return; }
+
+  if (a === 'start' || a === 'restart') { playClick(); startGame(); }
+  else if (a === 'train-topic') { playClick(); startGame(btn.dataset.topic); }
+  else if (a === 'answer') { answer(Number(btn.dataset.index)); }
+  else if (a === 'next') { next(); }
+  else if (a === 'retry-mistakes') { playClick(); retryMistakes(); }
+  else if (a === 'home') { playClick(); state.screen = 'start'; render(); }
+  else if (a === 'export-history') { exportHistory(); }
+  else if (a === 'reset-history') {
+    if (confirm('Удалить всю историю прохождений? Это действие нельзя отменить.')) {
+      clearHistory();
+      render();
     }
   }
-  else if(a==='diagnostics'){
-    btn.disabled=true; btn.textContent='Проверяем…';
-    // даём браузеру отрисовать состояние, потом запускаем тест
-    setTimeout(()=>{
-      const r=runDiagnostics();
-      const t=r.times;
-      const summary=`makeCompare: ${Math.round(t.tCompare)}мс | makeIdentify: ${Math.round(t.tIdentify)}мс | makeAdd: ${Math.round(t.tAdd)}мс\nmakeAdd(d=3): ${Math.round(t.tAddD3)}мс | makeIdentify(d=2/8): ${Math.round(t.tIdentifyEdge)}мс`;
-      if(r.total===0){
-        alert('✅ Диагностика пройдена\n\n'+summary);
-      } else {
-        alert(`⚠️ Найдено ${r.total} проблем\n\n${r.issues.join('\n')}\n\n${summary}`);
-      }
-      btn.disabled=false; btn.textContent='Диагностика';
-    },20);
-  }
-});
-document.addEventListener('keydown',e=>{
-  if(state.screen!=='quiz') return;
-  const q=state.questions[state.current];
-  if(!state.answered){
-    const n=parseInt(e.key,10);
-    if(n>=1 && n<=q.options.length){e.preventDefault();answer(n-1);}
-  } else if(e.key==='Enter'||e.key===' '){e.preventDefault();next();}
 });
 
+document.addEventListener('keydown', e => {
+  if (state.screen !== 'quiz') return;
+  const q = state.questions[state.current];
+  if (!state.answered) {
+    const n = parseInt(e.key, 10);
+    if (n >= 1 && n <= q.options.length) { e.preventDefault(); answer(n - 1); }
+  } else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); next(); }
+});
+
+/* ===================== ИНИЦИАЛИЗАЦИЯ ===================== */
+state.theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+try {
+  const s = localStorage.getItem('sound');
+  state.soundOn = s === null ? true : s === '1';
+} catch { state.soundOn = true; }
+
+syncToolbar();
 render();
+
+/* ===================== SELFTEST (?selftest) ===================== */
+if (new URLSearchParams(location.search).has('selftest')) {
+  const r = runDiagnostics();
+  const t = r.times;
+  document.getElementById('app').innerHTML = `
+    <section class="card" style="font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:14px;line-height:1.7">
+      <h2 style="font-family:Manrope,sans-serif;margin-bottom:20px;color:${r.total === 0 ? 'var(--emerald-dark)' : 'var(--rose-dark)'}">
+        ${r.total === 0 ? '✅ Все тесты пройдены' : `⚠️ ${r.total} проблем`}
+      </h2>
+      <div>makeCompare: ${Math.round(t.tCompare)} ms</div>
+      <div>makeIdentify: ${Math.round(t.tIdentify)} ms</div>
+      <div>makeAdd: ${Math.round(t.tAdd)} ms</div>
+      <div>makeAdd(d=3): ${Math.round(t.tAddD3)} ms</div>
+      <div>makeSimplify: ${Math.round(t.tSimplify)} ms</div>
+      <div>makeIdentify(d=2,8): ${Math.round(t.tIdentifyEdge)} ms</div>
+      ${r.issues.length ? `<hr style="margin:16px 0;border:none;border-top:1px solid var(--slate-200)"><pre style="white-space:pre-wrap">${r.issues.join('\n')}</pre>` : ''}
+      <p style="margin-top:24px;font-family:Manrope,sans-serif">
+        <a href="./" style="color:var(--indigo);font-weight:700">← Вернуться к тренажёру</a>
+      </p>
+    </section>
+  `;
+}
 </script>
 </body>
 </html>
