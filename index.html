@@ -6,7 +6,6 @@
 <title>Дроби · Наглядный тренажёр для 5–6 класса</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧮</text></svg>">
 <script>
-  // Anti-flash: ставим тему до первой отрисовки
   (function(){
     try{
       var t = localStorage.getItem('theme');
@@ -33,17 +32,9 @@
   --shadow:0 4px 12px rgba(15,23,42,.08);--shadow-lg:0 16px 40px rgba(15,23,42,.12);
 }
 html[data-theme="dark"]{
-  --surface:#1e293b;
-  --slate-50:#0f172a;
-  --slate-100:#334155;
-  --slate-200:#475569;
-  --slate-300:#64748b;
-  --slate-500:#94a3b8;
-  --slate-600:#cbd5e1;
-  --slate-700:#e2e8f0;
-  --slate-900:#f1f5f9;
-  --shadow:0 4px 12px rgba(0,0,0,.35);
-  --shadow-lg:0 16px 40px rgba(0,0,0,.45);
+  --surface:#1e293b;--slate-50:#0f172a;--slate-100:#334155;--slate-200:#475569;
+  --slate-300:#64748b;--slate-500:#94a3b8;--slate-600:#cbd5e1;--slate-700:#e2e8f0;--slate-900:#f1f5f9;
+  --shadow:0 4px 12px rgba(0,0,0,.35);--shadow-lg:0 16px 40px rgba(0,0,0,.45);
 }
 html{min-height:100%}
 body{
@@ -51,12 +42,9 @@ body{
   font-size:16px;line-height:1.5;color:var(--slate-900);
   background:linear-gradient(160deg,#eef2ff 0%,#faf5ff 50%,#fff1f2 100%);
   background-attachment:fixed;min-height:100vh;padding:24px 16px 32px;
-  -webkit-font-smoothing:antialiased;
-  transition:background .3s ease;
+  -webkit-font-smoothing:antialiased;transition:background .3s ease;
 }
-html[data-theme="dark"] body{
-  background:linear-gradient(160deg,#0b1120 0%,#141434 50%,#2a0f1f 100%);
-}
+html[data-theme="dark"] body{background:linear-gradient(160deg,#0b1120 0%,#141434 50%,#2a0f1f 100%)}
 .app{max-width:680px;margin:0 auto}
 .hero,.card,.result{
   background:var(--surface);border-radius:var(--radius-xl);
@@ -67,49 +55,34 @@ html[data-theme="dark"] body{
 .badge{
   display:inline-block;background:linear-gradient(135deg,rgba(99,102,241,.1),rgba(139,92,246,.1));
   color:var(--indigo-dark);font-size:.8125rem;font-weight:700;letter-spacing:.02em;
-  padding:6px 14px;border-radius:100px;margin-bottom:20px;
-  border:1px solid rgba(99,102,241,.2);
+  padding:6px 14px;border-radius:100px;margin-bottom:20px;border:1px solid rgba(99,102,241,.2);
 }
-html[data-theme="dark"] .badge{
-  color:#c7d2fe;background:linear-gradient(135deg,rgba(99,102,241,.2),rgba(139,92,246,.2));
-  border-color:rgba(129,140,248,.35);
-}
+html[data-theme="dark"] .badge{color:#c7d2fe;background:linear-gradient(135deg,rgba(99,102,241,.2),rgba(139,92,246,.2));border-color:rgba(129,140,248,.35)}
 .hero h1{
   font-size:clamp(1.75rem,5vw,2.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.15;
   background:linear-gradient(135deg,var(--slate-900),var(--indigo-dark));
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   margin-bottom:16px;
 }
-html[data-theme="dark"] .hero h1{
-  background:linear-gradient(135deg,#f1f5f9,#a5b4fc);
-  -webkit-background-clip:text;background-clip:text;
-}
+html[data-theme="dark"] .hero h1{background:linear-gradient(135deg,#f1f5f9,#a5b4fc);-webkit-background-clip:text;background-clip:text}
 .lead{font-size:1.0625rem;color:var(--slate-500);max-width:480px;margin:0 auto 32px;line-height:1.6}
 .features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:36px}
-.feature{
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  padding:16px 12px;background:var(--slate-50);border-radius:var(--radius);
-  font-size:.875rem;font-weight:600;color:var(--slate-700);border:1px solid var(--slate-100);
-}
+.feature{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;
+  background:var(--slate-50);border-radius:var(--radius);font-size:.875rem;font-weight:600;
+  color:var(--slate-700);border:1px solid var(--slate-100);text-align:center}
 .feature .icon{font-size:1.5rem;line-height:1}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
   padding:16px 32px;font-family:inherit;font-size:1.0625rem;font-weight:700;
   border:none;border-radius:var(--radius);cursor:pointer;line-height:1.2;
   transition:transform .15s,box-shadow .15s,background .15s,border-color .15s;
-  -webkit-tap-highlight-color:transparent;
-}
+  -webkit-tap-highlight-color:transparent}
 .btn:active{transform:translateY(1px) scale(.995)}
 .btn:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
-.btn-primary{
-  background:linear-gradient(135deg,var(--indigo),var(--violet));
-  color:#fff;box-shadow:0 6px 20px rgba(99,102,241,.35);
-}
+.btn-primary{background:linear-gradient(135deg,var(--indigo),var(--violet));color:#fff;
+  box-shadow:0 6px 20px rgba(99,102,241,.35)}
 .btn-primary:hover{box-shadow:0 8px 28px rgba(99,102,241,.45);transform:translateY(-1px)}
-.btn-secondary{
-  background:var(--surface);color:var(--slate-700);border:2px solid var(--slate-200);
-  padding:14px 28px;font-size:1rem;
-}
+.btn-secondary{background:var(--surface);color:var(--slate-700);border:2px solid var(--slate-200);
+  padding:14px 28px;font-size:1rem}
 .btn-secondary:hover{border-color:var(--slate-300);background:var(--slate-50)}
 .quiz-header{margin-bottom:20px;padding:0 4px}
 .quiz-meta{display:flex;justify-content:space-between;align-items:center;
@@ -144,8 +117,7 @@ html[data-theme="dark"] .hero h1{
   background:var(--surface);border:2px solid var(--slate-200);border-radius:var(--radius);cursor:pointer;
   transition:all .15s;-webkit-tap-highlight-color:transparent}
 .compare-options .option{font-size:2rem}
-.option:hover:not(:disabled){border-color:var(--indigo);background:rgba(99,102,241,.04);
-  transform:translateY(-2px)}
+.option:hover:not(:disabled){border-color:var(--indigo);background:rgba(99,102,241,.04);transform:translateY(-2px)}
 html[data-theme="dark"] .option:hover:not(:disabled){background:rgba(99,102,241,.15)}
 .option:active:not(:disabled){transform:translateY(0)}
 .option:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
@@ -162,10 +134,8 @@ html[data-theme="dark"] .option.wrong{color:#fda4af}
 .feedback{display:flex;gap:14px;padding:18px 20px;border-radius:var(--radius);
   margin-top:24px;animation:slideUp .35s cubic-bezier(.4,0,.2,1)}
 @keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.feedback.ok{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(5,150,105,.08));
-  border:1px solid rgba(16,185,129,.25)}
-.feedback.bad{background:linear-gradient(135deg,rgba(244,63,94,.06),rgba(245,158,11,.06));
-  border:1px solid rgba(244,63,94,.2)}
+.feedback.ok{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(5,150,105,.08));border:1px solid rgba(16,185,129,.25)}
+.feedback.bad{background:linear-gradient(135deg,rgba(244,63,94,.06),rgba(245,158,11,.06));border:1px solid rgba(244,63,94,.2)}
 html[data-theme="dark"] .feedback.ok{background:linear-gradient(135deg,rgba(16,185,129,.15),rgba(5,150,105,.1))}
 html[data-theme="dark"] .feedback.bad{background:linear-gradient(135deg,rgba(244,63,94,.15),rgba(245,158,11,.1))}
 .feedback-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;
@@ -186,78 +156,59 @@ html[data-theme="dark"] .feedback.bad .feedback-title{color:#fda4af}
 .result-score{font-size:3rem;font-weight:800;margin:20px 0;
   background:linear-gradient(135deg,var(--indigo),var(--violet));
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-html[data-theme="dark"] .result-score{
-  background:linear-gradient(135deg,#a5b4fc,#c4b5fd);
-  -webkit-background-clip:text;background-clip:text;
-}
+html[data-theme="dark"] .result-score{background:linear-gradient(135deg,#a5b4fc,#c4b5fd);-webkit-background-clip:text;background-clip:text}
 .result-streak{color:var(--amber);font-weight:700;margin-bottom:8px}
 .result-message{color:var(--slate-500);font-size:1.0625rem;margin-bottom:32px;line-height:1.5}
-.record-badge{
-  display:inline-flex;align-items:center;gap:6px;
+.record-badge{display:inline-flex;align-items:center;gap:6px;
   background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(244,63,94,.1));
-  color:var(--amber);font-size:.875rem;font-weight:800;
-  padding:6px 14px;border-radius:100px;margin-bottom:8px;
-  border:1px solid rgba(245,158,11,.25);
-}
+  color:var(--amber);font-size:.875rem;font-weight:800;padding:6px 14px;
+  border-radius:100px;margin-bottom:8px;border:1px solid rgba(245,158,11,.25)}
 .personal-best{color:var(--slate-500);font-size:.9375rem;margin-bottom:8px;font-weight:600}
 .result-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px}
-.topic-breakdown{
-  margin-top:32px;padding-top:24px;border-top:1px solid var(--slate-200);text-align:left;
-}
-.topic-breakdown h3{
-  font-size:.8125rem;font-weight:700;color:var(--slate-500);
-  margin-bottom:16px;text-align:center;text-transform:uppercase;letter-spacing:.05em;
-}
-.topic-row{
-  display:grid;grid-template-columns:24px 1fr 100px 48px;gap:12px;align-items:center;padding:10px 0;
-}
+.topic-breakdown{margin-top:32px;padding-top:24px;border-top:1px solid var(--slate-200);text-align:left}
+.topic-breakdown h3{font-size:.8125rem;font-weight:700;color:var(--slate-500);
+  margin-bottom:16px;text-align:center;text-transform:uppercase;letter-spacing:.05em}
+.topic-row{display:grid;grid-template-columns:24px 1fr 100px 48px;gap:12px;align-items:center;padding:10px 0}
 .topic-icon{font-size:1.25rem;text-align:center}
 .topic-name{font-size:.9375rem;font-weight:600;color:var(--slate-700)}
 .topic-bar{height:8px;background:var(--slate-100);border-radius:100px;overflow:hidden}
 .topic-fill{height:100%;border-radius:100px;transition:width .5s ease}
 .topic-score{font-size:.875rem;font-weight:700;color:var(--slate-600);text-align:right;font-variant-numeric:tabular-nums}
-.bar-legend{display:flex;gap:14px;justify-content:center;align-items:center;
-  margin-top:14px;font-size:.9375rem;font-weight:600;color:var(--slate-600);flex-wrap:wrap}
+.bar-legend{display:flex;gap:14px;justify-content:center;align-items:center;margin-top:14px;
+  font-size:.9375rem;font-weight:600;color:var(--slate-600);flex-wrap:wrap}
 .bar-legend span{display:inline-flex;align-items:center;gap:6px}
 .bar-legend .plus,.bar-legend .eq{font-weight:800;font-size:1.125rem;color:var(--slate-500)}
 .dot{width:12px;height:12px;border-radius:50%;display:inline-block}
 .dot-a{background:linear-gradient(135deg,var(--indigo),var(--violet))}
 .dot-b{background:linear-gradient(135deg,var(--amber),var(--rose))}
 
-/* Retry mistakes block */
-.retry-mistakes{
-  display:flex;align-items:center;gap:14px;padding:16px 20px;margin:24px 0;
+.retry-mistakes{display:flex;align-items:center;gap:14px;padding:16px 20px;margin:24px 0;
   background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(99,102,241,.05));
-  border:1px solid rgba(139,92,246,.25);border-radius:var(--radius);
-}
-html[data-theme="dark"] .retry-mistakes{
-  background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(99,102,241,.1));
-}
+  border:1px solid rgba(139,92,246,.25);border-radius:var(--radius)}
+html[data-theme="dark"] .retry-mistakes{background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(99,102,241,.1))}
 .retry-icon{font-size:1.5rem;line-height:1;flex-shrink:0}
 .retry-text{flex:1;font-size:.9375rem;color:var(--slate-700);line-height:1.4}
 .retry-text strong{font-weight:800;color:var(--slate-900)}
 .retry-btn{padding:10px 18px;font-size:.9375rem;flex-shrink:0}
 
-/* History stats card */
 .stats-card{margin-top:24px;padding:32px}
 .stats-header{display:flex;justify-content:space-between;align-items:center;
   margin-bottom:20px;gap:12px;flex-wrap:wrap}
 .stats-header h2{font-size:1.25rem;font-weight:800;letter-spacing:-.01em}
 .stats-count{font-size:.8125rem;font-weight:700;color:var(--slate-500);
   background:var(--slate-100);padding:4px 12px;border-radius:100px;white-space:nowrap}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
 .stat{padding:16px 10px;background:linear-gradient(135deg,var(--slate-50),var(--surface));
   border-radius:var(--radius);border:1px solid var(--slate-200);text-align:center}
 html[data-theme="dark"] .stat{background:linear-gradient(135deg,#0f172a,#1e293b)}
 .stat-value{font-size:1.5rem;font-weight:800;line-height:1.1;margin-bottom:4px;
   background:linear-gradient(135deg,var(--indigo),var(--violet));
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-html[data-theme="dark"] .stat-value{
-  background:linear-gradient(135deg,#a5b4fc,#c4b5fd);
-  -webkit-background-clip:text;background-clip:text;
-}
-.stat-label{font-size:.75rem;font-weight:600;color:var(--slate-500);
-  text-transform:uppercase;letter-spacing:.03em}
+html[data-theme="dark"] .stat-value{background:linear-gradient(135deg,#a5b4fc,#c4b5fd);-webkit-background-clip:text;background-clip:text}
+.stat-label{font-size:.75rem;font-weight:600;color:var(--slate-500);text-transform:uppercase;letter-spacing:.03em}
+.week-row{font-size:.875rem;color:var(--slate-500);padding:10px 16px;
+  background:var(--slate-50);border-radius:10px;margin-bottom:20px;text-align:center}
+.week-row strong{color:var(--slate-700);font-weight:700}
 .chart-wrap{margin-bottom:20px}
 .chart-title{font-size:.875rem;font-weight:700;color:var(--slate-600);margin-bottom:8px}
 .history-chart{width:100%;height:auto;display:block}
@@ -265,44 +216,52 @@ html[data-theme="dark"] .stat-value{
   font-size:.8125rem;font-weight:600;color:var(--slate-500);flex-wrap:wrap}
 .chart-legend span{display:inline-flex;align-items:center;gap:6px}
 .chart-legend .dot{width:10px;height:10px}
-.weak-topic{
-  display:flex;gap:14px;align-items:center;padding:14px 18px;
+.weak-topic{display:flex;gap:14px;align-items:center;padding:14px 18px;
   background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(244,63,94,.05));
-  border:1px solid rgba(245,158,11,.2);border-radius:var(--radius);margin-bottom:16px;
-}
-html[data-theme="dark"] .weak-topic{
-  background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(244,63,94,.1));
-}
+  border:1px solid rgba(245,158,11,.2);border-radius:var(--radius);margin-bottom:16px}
+html[data-theme="dark"] .weak-topic{background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(244,63,94,.1))}
 .weak-icon{font-size:1.5rem;line-height:1;flex-shrink:0}
 .weak-info{flex:1;min-width:0}
-.weak-title{font-size:.75rem;font-weight:700;color:var(--slate-500);
-  text-transform:uppercase;letter-spacing:.05em}
+.weak-title{font-size:.75rem;font-weight:700;color:var(--slate-500);text-transform:uppercase;letter-spacing:.05em}
 .weak-body{font-size:.9375rem;color:var(--slate-700);margin-top:2px}
 .train-btn{padding:10px 16px;font-size:.875rem;flex-shrink:0}
 .stats-footer{text-align:center;padding-top:8px}
-.link-btn{background:none;border:none;color:var(--slate-500);
-  font-size:.8125rem;font-weight:600;cursor:pointer;padding:6px 12px;
-  font-family:inherit;border-radius:8px;text-decoration:underline;
-  text-decoration-color:var(--slate-300);text-underline-offset:3px}
+.link-btn{background:none;border:none;color:var(--slate-500);font-size:.8125rem;
+  font-weight:600;cursor:pointer;padding:6px 12px;font-family:inherit;
+  border-radius:8px;text-decoration:underline;text-decoration-color:var(--slate-300);text-underline-offset:3px}
 .link-btn:hover{color:var(--rose);text-decoration-color:currentColor}
 .link-btn:focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
-.stats-footer .link-btn + .link-btn{margin-left:4px}
 
-/* Toolbar */
-.app-toolbar{
-  max-width:680px;margin:0 auto 12px;display:flex;justify-content:flex-end;
-  gap:8px;padding:0 4px;
-}
-.icon-btn{
-  width:42px;height:42px;border-radius:12px;
-  background:var(--surface);border:1px solid var(--slate-200);
-  color:var(--slate-700);cursor:pointer;font-size:1.125rem;line-height:1;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .15s;-webkit-tap-highlight-color:transparent;
-}
+.app-toolbar{max-width:680px;margin:0 auto 12px;display:flex;justify-content:flex-end;gap:8px;padding:0 4px}
+.icon-btn{width:42px;height:42px;border-radius:12px;background:var(--surface);
+  border:1px solid var(--slate-200);color:var(--slate-700);cursor:pointer;
+  font-size:1.125rem;line-height:1;display:flex;align-items:center;justify-content:center;
+  transition:all .15s;-webkit-tap-highlight-color:transparent}
 .icon-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
 .icon-btn:active{transform:translateY(0)}
 .icon-btn:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,100px);
+  padding:12px 20px;background:var(--slate-900);color:#fff;border-radius:12px;
+  font-size:.9375rem;font-weight:600;opacity:0;transition:all .3s ease;z-index:1000;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);pointer-events:none}
+html[data-theme="dark"] .toast{background:#f1f5f9;color:#0f172a}
+.toast-show{transform:translate(-50%,0);opacity:1}
+
+/* Teacher view */
+.teacher-table{width:100%;border-collapse:collapse;font-size:.875rem;margin-top:12px}
+.teacher-table th{text-align:left;padding:8px 12px;font-weight:700;color:var(--slate-600);
+  border-bottom:2px solid var(--slate-200);font-size:.75rem;text-transform:uppercase;letter-spacing:.03em}
+.teacher-table td{padding:8px 12px;border-bottom:1px solid var(--slate-100);
+  color:var(--slate-700);font-variant-numeric:tabular-nums}
+.teacher-table tr:last-child td{border-bottom:none}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;transition-duration:0.01ms !important;
+    scroll-behavior:auto !important}
+}
 
 @media(max-width:480px){
   body{padding:12px 12px 24px}
@@ -337,7 +296,7 @@ html[data-theme="dark"] .weak-topic{
   <button id="btn-sound" class="icon-btn" data-action="toggle-sound" type="button" aria-label="Звук">🔊</button>
   <button id="btn-theme" class="icon-btn" data-action="toggle-theme" type="button" aria-label="Сменить тему">🌙</button>
 </div>
-<main class="app" id="app" aria-live="polite"></main>
+<main class="app" id="app"></main>
 <script>
 'use strict';
 
@@ -356,7 +315,6 @@ const plural = (n,one,few,many)=>{
   return many;
 };
 const gcd = (a,b)=>b?gcd(b,a%b):a;
-
 const fracEq = (a,b)=>{
   try{
     const [an,ad]=String(a).split('/').map(Number);
@@ -386,55 +344,100 @@ const TOPICS = {
 
 /* ===================== ЗВУК ===================== */
 let audioCtx = null;
-function initAudio(){
+function unlockAudio(){
+  if(!state.soundOn) return;
   if(!audioCtx){
     try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-    catch{ return null; }
+    catch{ return; }
   }
-  if(audioCtx.state === 'suspended') audioCtx.resume();
-  return audioCtx;
+  if(audioCtx.state === 'suspended') audioCtx.resume().catch(()=>{});
 }
 function playTone(freq, duration, type, gain, delay){
   if(!state.soundOn) return;
+  if(!audioCtx) unlockAudio();
+  if(!audioCtx) return;
   type = type || 'sine'; gain = gain == null ? 0.08 : gain; delay = delay || 0;
-  const ctx = initAudio(); if(!ctx) return;
-  const t0 = ctx.currentTime + delay;
-  const osc = ctx.createOscillator();
-  const g = ctx.createGain();
-  osc.type = type;
-  osc.frequency.setValueAtTime(freq, t0);
-  g.gain.setValueAtTime(0.0001, t0);
-  g.gain.linearRampToValueAtTime(gain, t0 + 0.012);
-  g.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
-  osc.connect(g); g.connect(ctx.destination);
-  osc.start(t0); osc.stop(t0 + duration + 0.05);
+  try{
+    const t0 = audioCtx.currentTime + delay;
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, t0);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.linearRampToValueAtTime(gain, t0 + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+    osc.connect(g); g.connect(audioCtx.destination);
+    osc.start(t0); osc.stop(t0 + duration + 0.05);
+  }catch{}
 }
 const playCorrect = () => { playTone(660, 0.1); playTone(880, 0.14, 'sine', 0.08, 0.08); };
 const playWrong   = () => { playTone(230, 0.14, 'triangle', 0.07); playTone(180, 0.2, 'triangle', 0.06, 0.1); };
 const playComplete= () => { playTone(523,0.12); playTone(659,0.12,'sine',0.08,0.1); playTone(784,0.22,'sine',0.08,0.2); };
 const playClick   = () => { playTone(420, 0.03, 'sine', 0.03); };
 
-/* ===================== ХРАНИЛИЩЕ ===================== */
-const STORAGE_KEY = 'fractions-trainer-history-v1';
+/* ===================== ХРАНИЛИЩЕ (v2 + миграция v1) ===================== */
+const STORAGE_KEY = 'fractions-trainer-history-v2';
+const STORAGE_KEY_V1 = 'fractions-trainer-history-v1';
+const DIFF_KEY = 'fractions-trainer-difficulty-v1';
+
 function loadHistory(){
-  try{const raw=localStorage.getItem(STORAGE_KEY);const h=raw?JSON.parse(raw):[];return Array.isArray(h)?h:[];}
-  catch{return[];}
+  try{
+    let raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw){
+      const v1 = localStorage.getItem(STORAGE_KEY_V1);
+      if(v1){
+        try{
+          const migrated = JSON.parse(v1);
+          if(Array.isArray(migrated)){
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+            localStorage.removeItem(STORAGE_KEY_V1);
+          }
+          raw = v1;
+        }catch{}
+      }
+    }
+    const h = raw ? JSON.parse(raw) : [];
+    return Array.isArray(h) ? h : [];
+  }catch{ return []; }
 }
 function saveRun(run){
   try{
-    const h=loadHistory();
+    const h = loadHistory();
     h.push(run);
-    if(h.length>50) h.shift();
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(h));
+    if(h.length > 50) h.shift();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(h));
   }catch{}
 }
-function clearHistory(){try{localStorage.removeItem(STORAGE_KEY);}catch{}}
+function clearHistory(){
+  try{
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(STORAGE_KEY_V1);
+  }catch{}
+}
+
+function clampDiff(x){ x = Number(x) || 2; return Math.max(1, Math.min(3, x)); }
+function loadDifficulty(){
+  try{
+    const raw = localStorage.getItem(DIFF_KEY);
+    const d = raw ? JSON.parse(raw) : null;
+    if(!d) return { compare: 2, identify: 2, add: 2, simplify: 2 };
+    return {
+      compare: clampDiff(d.compare),
+      identify: clampDiff(d.identify),
+      add: clampDiff(d.add),
+      simplify: clampDiff(d.simplify)
+    };
+  }catch{ return { compare: 2, identify: 2, add: 2, simplify: 2 }; }
+}
+function saveDifficulty(){
+  try{ localStorage.setItem(DIFF_KEY, JSON.stringify(state.topicDifficulty)); }catch{}
+}
 
 function emptyAgg(){
   return {compare:{correct:0,total:0},identify:{correct:0,total:0},add:{correct:0,total:0},simplify:{correct:0,total:0}};
 }
 function aggregateTopics(runs){
-  const agg=emptyAgg();
+  const agg = emptyAgg();
   runs.forEach(run=>{
     if(!run.byTopic) return;
     Object.keys(run.byTopic).forEach(k=>{
@@ -446,50 +449,65 @@ function aggregateTopics(runs){
   });
   return agg;
 }
-function findWeakest(agg){
-  let weakest=null;
+/* Уровень 1: слабая тема — по последним 15 попыткам, а не по всей истории */
+function findWeakest(history){
+  if(!history || !history.length) return null;
+  const recent = history.slice(-15);
+  const agg = aggregateTopics(recent);
+  let weakest = null;
   Object.entries(agg).forEach(([k,v])=>{
-    if(v.total<2) return;
-    const ratio=v.correct/v.total;
-    if(ratio>=0.9) return;
-    if(!weakest || ratio<weakest.ratio) weakest={topic:k,ratio,...v};
+    if(v.total < 2) return;
+    const ratio = v.correct / v.total;
+    if(ratio >= 0.9) return;
+    if(!weakest || ratio < weakest.ratio) weakest = { topic: k, ratio, ...v };
   });
   return weakest;
 }
+/* Уровень 2: статистика за последние 7 дней */
+function weeklyStats(history){
+  if(!history || !history.length) return null;
+  const cutoff = Date.now() - 7*24*60*60*1000;
+  const recent = history.filter(r => (r.ts||0) >= cutoff);
+  if(!recent.length) return null;
+  const sum = recent.reduce((s,r)=> s + r.score/r.total, 0);
+  return { count: recent.length, avg: sum / recent.length };
+}
 
 /* ===================== ГЕНЕРАТОРЫ ===================== */
-function makeCompare(){
-  if(Math.random()<0.15){
-    const d=randInt(2,5), n=randInt(1,d-1);
+function makeCompare(diff){
+  diff = diff || 2;
+  const maxD = diff === 1 ? 4 : diff === 3 ? 12 : 8;
+  if(Math.random() < 0.15){
+    const d = randInt(2, Math.min(5, maxD)), n = randInt(1, d-1);
     return buildCompare({n,d},{n:n*2,d:d*2},true);
   }
   let a,b,cmp,attempts=0;
   do{
-    const d1=randInt(2,8), n1=randInt(1,d1-1);
-    const d2=randInt(2,8), n2=randInt(1,d2-1);
+    const d1 = randInt(2, maxD), n1 = randInt(1, d1-1);
+    const d2 = randInt(2, maxD), n2 = randInt(1, d2-1);
     if(d1===d2 && n1===n2){attempts++;continue;}
-    a={n:n1,d:d1}; b={n:n2,d:d2};
-    cmp=a.n*b.d-b.n*a.d; attempts++;
-  } while(cmp===0 && attempts<15);
+    a = {n:n1, d:d1}; b = {n:n2, d:d2};
+    cmp = a.n*b.d - b.n*a.d; attempts++;
+  }while(cmp===0 && attempts<15);
   return buildCompare(a,b,false);
 }
 function buildCompare(a,b,isEqual){
-  const diff=a.n*b.d-b.n*a.d;
-  const sym=diff<0?'<':diff>0?'>':'=';
-  const options=[
+  const diff = a.n*b.d - b.n*a.d;
+  const sym = diff<0?'<':diff>0?'>':'=';
+  const options = [
     {label:'<',correct:diff<0},
     {label:'=',correct:diff===0},
     {label:'>',correct:diff>0}
   ];
   let explanation;
-  if(isEqual||diff===0){
-    explanation=`${a.n}/${a.d} и ${b.n}/${b.d} — равные дроби. Если умножить числитель и знаменатель на одно и то же число, значение не меняется.`;
-  } else if(a.d===b.d){
-    explanation=`Знаменатели одинаковые, сравниваем числители: ${a.n} ${sym} ${b.n}. Значит, ${a.n}/${a.d} ${sym} ${b.n}/${b.d}.`;
-  } else if(a.n===b.n){
-    explanation=`Числители одинаковые. Чем больше знаменатель, тем меньше каждая часть. Поэтому ${a.n}/${a.d} ${sym} ${b.n}/${b.d}.`;
+  if(isEqual || diff===0){
+    explanation = `${a.n}/${a.d} и ${b.n}/${b.d} — равные дроби. Если умножить числитель и знаменатель на одно и то же число, значение не меняется.`;
+  } else if(a.d === b.d){
+    explanation = `Знаменатели одинаковые, сравниваем числители: ${a.n} ${sym} ${b.n}. Значит, ${a.n}/${a.d} ${sym} ${b.n}/${b.d}.`;
+  } else if(a.n === b.n){
+    explanation = `Числители одинаковые. Чем больше знаменатель, тем меньше каждая часть. Поэтому ${a.n}/${a.d} ${sym} ${b.n}/${b.d}.`;
   } else {
-    explanation=`Посмотри на полоски: у ${diff<0?'первой':'второй'} дроби закрашено меньше. Значит, ${a.n}/${a.d} ${sym} ${b.n}/${b.d}.`;
+    explanation = `Посмотри на полоски: у ${diff<0?'первой':'второй'} дроби закрашено меньше. Значит, ${a.n}/${a.d} ${sym} ${b.n}/${b.d}.`;
   }
   return {
     type:'compare',
@@ -503,38 +521,38 @@ function buildCompare(a,b,isEqual){
   };
 }
 
-function makeIdentify(forcedD){
-  const d=forcedD || randInt(2,8);
-  const n=randInt(1,d-1);
-  const correct=`${n}/${d}`;
-  const cand=new Set();
-  if(d-n>0 && d-n!==n) cand.add(`${d-n}/${d}`);
-  if(d+1<=10) cand.add(`${n}/${d+1}`);
-  if(d-1>=2) cand.add(`${n}/${d-1}`);
+function makeIdentify(forcedD, diff){
+  diff = diff || 2;
+  const maxD = diff === 1 ? 4 : diff === 3 ? 10 : 8;
+  const d = forcedD || randInt(2, maxD);
+  const n = randInt(1, d-1);
+  const correct = `${n}/${d}`;
+  const cand = new Set();
+  if(d-n > 0 && d-n !== n) cand.add(`${d-n}/${d}`);
+  if(d+1 <= 10) cand.add(`${n}/${d+1}`);
+  if(d-1 >= 2) cand.add(`${n}/${d-1}`);
   cand.add(`${d}/${n}`);
-  if(n+1<d) cand.add(`${n+1}/${d}`);
-  if(n-1>0) cand.add(`${n-1}/${d}`);
+  if(n+1 < d) cand.add(`${n+1}/${d}`);
+  if(n-1 > 0) cand.add(`${n-1}/${d}`);
 
   let distractors = distinct(shuffle([...cand]), correct).slice(0,3);
-  let guard=0;
-  while(distractors.length<3 && guard++<300){
-    const dd=randInt(2,10);
-    const nn=randInt(1,dd-1);
-    const c=`${nn}/${dd}`;
+  let guard = 0;
+  while(distractors.length < 3 && guard++ < 300){
+    const dd = randInt(2, 10), nn = randInt(1, dd-1);
+    const c = `${nn}/${dd}`;
     if(fracEq(c,correct)) continue;
     if(distractors.some(x=>fracEq(x,c))) continue;
     distractors.push(c);
   }
-  if(distractors.length<3){
+  if(distractors.length < 3){
     for(const c of FORCE_POOL){
-      if(distractors.length>=3) break;
+      if(distractors.length >= 3) break;
       if(fracEq(c,correct)) continue;
       if(distractors.some(x=>fracEq(x,c))) continue;
       distractors.push(c);
     }
   }
-
-  const options=shuffle([correct,...distractors]).map(o=>({label:o,correct:o===correct}));
+  const options = shuffle([correct, ...distractors]).map(o => ({label:o, correct:o === correct}));
   return {
     type:'identify',
     prompt:'Какая дробь закрашена?',
@@ -544,37 +562,40 @@ function makeIdentify(forcedD){
   };
 }
 
-function makeAdd(forcedD){
-  const d=forcedD || randInt(3,9);
-  const n1=randInt(1,Math.floor((d-1)/2));
-  const n2=randInt(1,Math.floor((d-1)/2));
-  const sum=n1+n2, correct=`${sum}/${d}`;
-  const cand=new Set();
+function makeAdd(forcedD, diff){
+  diff = diff || 2;
+  let d;
+  if(forcedD) d = forcedD;
+  else if(diff === 1) d = randInt(3, 5);
+  else if(diff === 3) d = randInt(5, 12);
+  else d = randInt(3, 9);
+  const n1 = randInt(1, Math.floor((d-1)/2));
+  const n2 = randInt(1, Math.floor((d-1)/2));
+  const sum = n1 + n2, correct = `${sum}/${d}`;
+  const cand = new Set();
   cand.add(`${sum}/${d+d}`);
-  if(sum+1<d) cand.add(`${sum+1}/${d}`);
-  if(sum-1>0) cand.add(`${sum-1}/${d}`);
+  if(sum+1 < d) cand.add(`${sum+1}/${d}`);
+  if(sum-1 > 0) cand.add(`${sum-1}/${d}`);
   cand.add(`${n1*n2}/${d}`);
 
   let distractors = distinct(shuffle([...cand]), correct).slice(0,3);
-  let guard=0;
-  while(distractors.length<3 && guard++<300){
-    const dd=randInt(2,10);
-    const nn=randInt(1,dd-1);
-    const c=`${nn}/${dd}`;
+  let guard = 0;
+  while(distractors.length < 3 && guard++ < 300){
+    const dd = randInt(2, 10), nn = randInt(1, dd-1);
+    const c = `${nn}/${dd}`;
     if(fracEq(c,correct)) continue;
     if(distractors.some(x=>fracEq(x,c))) continue;
     distractors.push(c);
   }
-  if(distractors.length<3){
+  if(distractors.length < 3){
     for(const c of FORCE_POOL){
-      if(distractors.length>=3) break;
+      if(distractors.length >= 3) break;
       if(fracEq(c,correct)) continue;
       if(distractors.some(x=>fracEq(x,c))) continue;
       distractors.push(c);
     }
   }
-
-  const options=shuffle([correct,...distractors]).map(o=>({label:o,correct:o===correct}));
+  const options = shuffle([correct, ...distractors]).map(o => ({label:o, correct:o === correct}));
   return {
     type:'add',
     prompt:'Сложи дроби:',
@@ -593,50 +614,45 @@ function makeAdd(forcedD){
   };
 }
 
-/* Сокращение: генерим несократимую a/b и умножаем на k, чтобы было что сокращать */
-const COPRIME_PAIRS = [[1,2],[1,3],[2,3],[1,4],[3,4],[1,5],[2,5],[3,5],[4,5],[1,6],[5,6],[1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,8],[3,8],[5,8],[7,8],[1,9],[2,9],[4,9],[5,9],[7,9],[8,9]];
-function makeSimplify(){
-  const [a, b] = COPRIME_PAIRS[randInt(0, COPRIME_PAIRS.length - 1)];
+const COPRIME_PAIRS = [[1,2],[1,3],[2,3],[1,4],[3,4],[1,5],[2,5],[3,5],[4,5],[1,6],[5,6],[1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,8],[3,8],[5,8],[7,8],[1,9],[2,9],[4,9],[5,9],[7,9],[8,9],[1,10],[3,10],[7,10],[9,10],[1,11],[2,11],[3,11],[10,11],[1,12],[5,12],[7,12],[11,12]];
+function makeSimplify(diff){
+  diff = diff || 2;
+  const maxB = diff === 1 ? 6 : diff === 3 ? 15 : 10;
+  const pairs = COPRIME_PAIRS.filter(([a,b]) => b <= maxB);
+  const [a, b] = pairs[randInt(0, pairs.length - 1)];
   const k = randInt(2, 3);
   const n = a * k, d = b * k;
-  const g = gcd(n, d); // == k, т.к. a, b взаимно просты
+  const g = gcd(n, d);
   const correct = `${a}/${b}`;
 
   const cand = new Set();
-  // Типичная ошибка: сократить только числитель или только знаменатель
-  if (n % g === 0) { const c = `${n/g}/${d}`; if (!fracEq(c, correct)) cand.add(c); }
-  if (d % g === 0) { const c = `${n}/${d/g}`; if (!fracEq(c, correct)) cand.add(c); }
-  // Ошибка: вычитание вместо деления
-  if (n - g > 0 && d - g > 0) { const c = `${n-g}/${d-g}`; if (!fracEq(c, correct)) cand.add(c); }
-  // Ошибка: сократить на неправильный делитель (если он подходит)
-  if (k > 2 && n % (k-1) === 0 && d % (k-1) === 0) { const c = `${n/(k-1)}/${d/(k-1)}`; if (!fracEq(c, correct)) cand.add(c); }
-  if (n % (k+1) === 0 && d % (k+1) === 0) { const c = `${n/(k+1)}/${d/(k+1)}`; if (!fracEq(c, correct)) cand.add(c); }
-  // Плаузибельные случайные
-  if (a+1 < b) { const c = `${a+1}/${b}`; if (!fracEq(c, correct)) cand.add(c); }
-  { const c = `${a}/${b+1}`; if (!fracEq(c, correct)) cand.add(c); }
+  { const c = `${n/g}/${d}`; if(!fracEq(c,correct)) cand.add(c); }
+  { const c = `${n}/${d/g}`; if(!fracEq(c,correct)) cand.add(c); }
+  if(n - g > 0 && d - g > 0){ const c = `${n-g}/${d-g}`; if(!fracEq(c,correct)) cand.add(c); }
+  if(k > 2 && n % (k-1) === 0 && d % (k-1) === 0){ const c = `${n/(k-1)}/${d/(k-1)}`; if(!fracEq(c,correct)) cand.add(c); }
+  if(n % (k+1) === 0 && d % (k+1) === 0){ const c = `${n/(k+1)}/${d/(k+1)}`; if(!fracEq(c,correct)) cand.add(c); }
+  if(a+1 < b){ const c = `${a+1}/${b}`; if(!fracEq(c,correct)) cand.add(c); }
+  { const c = `${a}/${b+1}`; if(!fracEq(c,correct)) cand.add(c); }
 
-  let distractors = distinct(shuffle([...cand]), correct).slice(0, 3);
+  let distractors = distinct(shuffle([...cand]), correct).slice(0,3);
   let guard = 0;
-  while (distractors.length < 3 && guard++ < 300) {
-    const dd = randInt(2, 12);
-    const nn = randInt(1, dd - 1);
+  while(distractors.length < 3 && guard++ < 300){
+    const dd = randInt(2, 12), nn = randInt(1, dd-1);
     const c = `${nn}/${dd}`;
-    if (fracEq(c, correct)) continue;
-    if (distractors.some(x => fracEq(x, c))) continue;
+    if(fracEq(c,correct)) continue;
+    if(distractors.some(x=>fracEq(x,c))) continue;
     distractors.push(c);
   }
-  if (distractors.length < 3) {
-    for (const c of FORCE_POOL) {
-      if (distractors.length >= 3) break;
-      if (fracEq(c, correct)) continue;
-      if (distractors.some(x => fracEq(x, c))) continue;
+  if(distractors.length < 3){
+    for(const c of FORCE_POOL){
+      if(distractors.length >= 3) break;
+      if(fracEq(c,correct)) continue;
+      if(distractors.some(x=>fracEq(x,c))) continue;
       distractors.push(c);
     }
   }
-
   const options = shuffle([correct, ...distractors]).map(o => ({label:o, correct:o === correct}));
   const visual = d <= 12 ? `<div class="identify-visual">${fractionBar(n, d)}</div>` : '';
-
   return {
     type:'simplify',
     prompt:`Сократи дробь ${fracHTML(n, d)}:`,
@@ -646,21 +662,23 @@ function makeSimplify(){
   };
 }
 
+function generateByType(type){
+  const diff = state.topicDifficulty[type] || 2;
+  switch(type){
+    case 'compare':  return makeCompare(diff);
+    case 'identify': return makeIdentify(undefined, diff);
+    case 'add':      return makeAdd(undefined, diff);
+    case 'simplify': return makeSimplify(diff);
+    default:         return makeCompare(diff);
+  }
+}
 function buildQuestionSet(topicFilter){
   const pool = [];
-  if (topicFilter) {
-    const map = {compare: makeCompare, identify: makeIdentify, add: makeAdd, simplify: makeSimplify};
-    const gen = map[topicFilter] || makeCompare;
-    for (let i = 0; i < 8; i++) pool.push(gen());
+  if(topicFilter){
+    for(let i = 0; i < 8; i++) pool.push(generateByType(topicFilter));
   } else {
-    const gens = [
-      makeCompare, makeCompare,
-      makeIdentify, makeIdentify,
-      makeAdd, makeAdd,
-      makeSimplify, makeSimplify
-    ];
-    const shuffled = shuffle(gens);
-    for (let i = 0; i < 8; i++) pool.push(shuffled[i]());
+    const types = ['compare','compare','identify','identify','add','add','simplify','simplify'];
+    shuffle(types).forEach(t => pool.push(generateByType(t)));
   }
   return pool;
 }
@@ -675,19 +693,21 @@ const state = {
   isRetry: false,
   wrongQuestions: [],
   theme: 'light',
-  soundOn: true
+  soundOn: true,
+  topicStreak: { compare: 0, identify: 0, add: 0, simplify: 0 },
+  topicDifficulty: { compare: 2, identify: 2, add: 2, simplify: 2 }
 };
 
-/* ===================== ТЕМА / ЗВУК ===================== */
+/* ===================== ТЕМА / ЗВУК / TOAST ===================== */
 function syncToolbar(){
   const bs = document.getElementById('btn-sound');
   const bt = document.getElementById('btn-theme');
-  if (bs) {
+  if(bs){
     bs.textContent = state.soundOn ? '🔊' : '🔇';
     bs.setAttribute('aria-label', state.soundOn ? 'Выключить звук' : 'Включить звук');
     bs.title = state.soundOn ? 'Звук включён' : 'Звук выключен';
   }
-  if (bt) {
+  if(bt){
     bt.textContent = state.theme === 'dark' ? '☀️' : '🌙';
     bt.setAttribute('aria-label', state.theme === 'dark' ? 'Светлая тема' : 'Тёмная тема');
     bt.title = state.theme === 'dark' ? 'Светлая тема' : 'Тёмная тема';
@@ -703,14 +723,25 @@ function toggleSound(){
   state.soundOn = !state.soundOn;
   try{ localStorage.setItem('sound', state.soundOn ? '1' : '0'); }catch{}
   syncToolbar();
-  if (state.soundOn) playClick();
+  if(state.soundOn){ unlockAudio(); playClick(); }
+}
+function showToast(msg){
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('toast-show'));
+  setTimeout(() => {
+    t.classList.remove('toast-show');
+    setTimeout(() => t.remove(), 300);
+  }, 2200);
 }
 
 /* ===================== РЕНДЕР ===================== */
 function render(){
   const app = document.getElementById('app');
-  if (state.screen === 'start') app.innerHTML = renderStart();
-  else if (state.screen === 'quiz') app.innerHTML = renderQuiz();
+  if(state.screen === 'start') app.innerHTML = renderStart();
+  else if(state.screen === 'quiz') app.innerHTML = renderQuiz();
   else app.innerHTML = renderResult();
 }
 
@@ -722,7 +753,7 @@ function renderStart(){
       <h1>Дроби без стресса</h1>
       <p class="lead">
         8 коротких заданий, чтобы разобраться в сравнении, записи, сложении и сокращении дробей.
-        Наглядные полоски и понятное объяснение после каждого ответа — а не просто «правильно / неправильно».
+        Наглядные полоски и понятное объяснение после каждого ответа.
       </p>
       <div class="features">
         <div class="feature"><span class="icon">👀</span>Наглядные полоски</div>
@@ -738,9 +769,9 @@ function renderStart(){
 function renderStatsCard(history){
   const attempts = history.length;
   const best = Math.max(...history.map(r => r.score / r.total));
-  const avg = history.reduce((s, r) => s + r.score / r.total, 0) / attempts;
-  const agg = aggregateTopics(history);
-  const weak = findWeakest(agg);
+  const avg = history.reduce((s,r) => s + r.score/r.total, 0) / attempts;
+  const weak = findWeakest(history);
+  const week = weeklyStats(history);
   const lastN = Math.min(history.length, 10);
 
   return `
@@ -750,19 +781,15 @@ function renderStatsCard(history){
         <span class="stats-count">${attempts} ${plural(attempts,'попытка','попытки','попыток')}</span>
       </div>
       <div class="stats-grid">
-        <div class="stat">
-          <div class="stat-value">${Math.round(best * 100)}%</div>
-          <div class="stat-label">Лучший</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">${Math.round(avg * 100)}%</div>
-          <div class="stat-label">В среднем</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">${attempts}</div>
-          <div class="stat-label">Попыток</div>
-        </div>
+        <div class="stat"><div class="stat-value">${Math.round(best*100)}%</div><div class="stat-label">Лучший</div></div>
+        <div class="stat"><div class="stat-value">${Math.round(avg*100)}%</div><div class="stat-label">В среднем</div></div>
+        <div class="stat"><div class="stat-value">${attempts}</div><div class="stat-label">Попыток</div></div>
       </div>
+      ${week ? `
+        <div class="week-row">
+          📅 За неделю: <strong>${week.count}</strong> ${plural(week.count,'тренировка','тренировки','тренировок')} · средний результат <strong>${Math.round(week.avg*100)}%</strong>
+        </div>
+      ` : ''}
       <div class="chart-wrap">
         <div class="chart-title">Последние ${lastN} ${plural(lastN,'прохождение','прохождения','прохождений')}</div>
         ${renderHistoryChart(history)}
@@ -774,8 +801,7 @@ function renderStatsCard(history){
       </div>
       ${weak ? renderWeakTopic(weak) : ''}
       <div class="stats-footer">
-        <button class="link-btn" data-action="export-history">Экспорт</button>
-        <button class="link-btn" data-action="reset-history">Сбросить</button>
+        <button class="link-btn" data-action="reset-history">Сбросить историю</button>
       </div>
     </section>
   `;
@@ -788,7 +814,7 @@ function renderWeakTopic(weak){
       <span class="weak-icon">🎯</span>
       <div class="weak-info">
         <div class="weak-title">Слабое место</div>
-        <div class="weak-body">${t.icon} <strong>${t.label}</strong> — ${weak.correct} из ${weak.total} верно (${Math.round(weak.ratio * 100)}%)</div>
+        <div class="weak-body">${t.icon} <strong>${t.label}</strong> — ${weak.correct} из ${weak.total} верно (${Math.round(weak.ratio*100)}%)</div>
       </div>
       <button class="btn btn-secondary train-btn" data-action="train-topic" data-topic="${weak.topic}">Тренировать</button>
     </div>
@@ -811,11 +837,8 @@ function renderHistoryChart(history){
     const y = BOTTOM - barH;
     const color = pct >= 0.75 ? '#10b981' : pct >= 0.5 ? '#f59e0b' : '#f43f5e';
     const when = new Date(run.ts || Date.now()).toLocaleString('ru-RU', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'});
-    bars += `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="3" fill="${color}">
-      <title>${when} — ${run.score}/${run.total} (${Math.round(pct*100)}%)</title>
-    </rect>`;
-    bars += `<text x="${x + barW/2}" y="${y - 4}" text-anchor="middle" font-size="9" font-weight="700"
-             style="fill:var(--slate-600);font-family:Manrope,sans-serif">${Math.round(pct*100)}</text>`;
+    bars += `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="3" fill="${color}"><title>${when} — ${run.score}/${run.total} (${Math.round(pct*100)}%)</title></rect>`;
+    bars += `<text x="${x + barW/2}" y="${y - 4}" text-anchor="middle" font-size="9" font-weight="700" style="fill:var(--slate-600);font-family:Manrope,sans-serif">${Math.round(pct*100)}</text>`;
   });
   return `<svg viewBox="0 0 ${W} ${H}" class="history-chart" role="img" aria-label="История прохождений">${bars}</svg>`;
 }
@@ -825,10 +848,12 @@ function renderQuiz(){
   const total = state.questions.length;
   const progress = ((state.current + (state.answered ? 1 : 0)) / total) * 100;
   const isCompare = q.type === 'compare';
+  const diff = state.topicDifficulty[q.type] || 2;
+  const diffLabel = diff === 1 ? '· база' : diff === 3 ? '· сложнее' : '';
   return `
     <div class="quiz-header">
       <div class="quiz-meta">
-        <span class="quiz-step">Задание ${state.current + 1} из ${total}${state.isRetry ? ' · закрепление' : ''}</span>
+        <span class="quiz-step">Задание ${state.current+1} из ${total}${state.isRetry ? ' · закрепление' : ''} ${diffLabel}</span>
         <span class="quiz-score">⭐ ${state.score}</span>
       </div>
       <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
@@ -837,7 +862,7 @@ function renderQuiz(){
       <div class="question-prompt">${q.prompt}</div>
       ${q.visual || ''}
       <div class="options ${isCompare ? 'compare-options' : 'fraction-options'}">
-        ${q.options.map((o, i) => renderOption(o, i)).join('')}
+        ${q.options.map((o,i) => renderOption(o,i)).join('')}
       </div>
       ${state.answered ? renderFeedback(q) : ''}
     </section>`;
@@ -845,9 +870,9 @@ function renderQuiz(){
 
 function renderOption(o, i){
   let cls = 'option';
-  if (state.answered) {
-    if (o.correct) cls += ' correct';
-    else if (i === state.selectedIndex) cls += ' wrong';
+  if(state.answered){
+    if(o.correct) cls += ' correct';
+    else if(i === state.selectedIndex) cls += ' wrong';
     else cls += ' dimmed';
   }
   return `<button class="${cls}" data-action="answer" data-index="${i}" ${state.answered ? 'disabled' : ''}>${renderLabel(o.label)}</button>`;
@@ -857,10 +882,10 @@ function renderFeedback(q){
   const ok = q.options[state.selectedIndex].correct;
   const isLast = state.current === state.questions.length - 1;
   return `
-    <div class="feedback ${ok ? 'ok' : 'bad'}">
-      <div class="feedback-icon">${ok ? '✓' : '✗'}</div>
+    <div class="feedback ${ok?'ok':'bad'}" role="status" aria-live="polite">
+      <div class="feedback-icon">${ok?'✓':'✗'}</div>
       <div class="feedback-body">
-        <div class="feedback-title">${ok ? 'Верно!' : 'Не совсем'}</div>
+        <div class="feedback-title">${ok?'Верно!':'Не совсем'}</div>
         <div class="feedback-text">${q.explanation}</div>
       </div>
     </div>
@@ -873,20 +898,20 @@ function renderFeedback(q){
 
 function renderResult(){
   const total = state.questions.length;
-  const pct = Math.round((state.score / total) * 100);
+  const pct = Math.round((state.score/total) * 100);
   const isRetry = state.isRetry;
 
   let emoji, title, message;
-  if (isRetry && pct === 100) { emoji = '💪'; title = 'Закреплено!'; message = 'Все ошибки разобраны — теперь ты точно понимаешь эти задания.'; }
-  else if (pct === 100) { emoji = '🏆'; title = 'Идеально!'; message = 'Все верно. Ты уверенно разбираешься в дробях!'; }
-  else if (pct >= 75) { emoji = '🌟'; title = 'Отличный результат!'; message = 'Дроби почти освоены. Ещё немного практики — и будет идеально.'; }
-  else if (pct >= 50) { emoji = '👍'; title = 'Хороший старт!'; message = 'Уже многое получается. Пройди ещё раз — и результат вырастет.'; }
-  else { emoji = '💪'; title = 'Главное — практика'; message = 'Дроби — это навык. Попробуй ещё раз: с каждым проходом будет понятнее.'; }
+  if(isRetry && pct === 100){ emoji='💪'; title='Закреплено!'; message='Все ошибки разобраны — теперь ты точно понимаешь эти задания.'; }
+  else if(pct === 100){ emoji='🏆'; title='Идеально!'; message='Все верно. Ты уверенно разбираешься в дробях!'; }
+  else if(pct >= 75){ emoji='🌟'; title='Отличный результат!'; message='Дроби почти освоены. Ещё немного практики — и будет идеально.'; }
+  else if(pct >= 50){ emoji='👍'; title='Хороший старт!'; message='Уже многое получается. Пройди ещё раз — и результат вырастет.'; }
+  else { emoji='💪'; title='Главное — практика'; message='Дроби — это навык. Попробуй ещё раз: с каждым проходом будет понятнее.'; }
 
-  const topicsHtml = Object.entries(state.byTopic).map(([k, v]) => {
-    if (!TOPICS[k]) return '';
+  const topicsHtml = Object.entries(state.byTopic).map(([k,v])=>{
+    if(!TOPICS[k]) return '';
     const t = TOPICS[k];
-    const p = v.total ? Math.round(v.correct / v.total * 100) : 0;
+    const p = v.total ? Math.round(v.correct/v.total*100) : 0;
     const color = p >= 75 ? 'var(--emerald)' : p >= 50 ? 'var(--amber)' : 'var(--rose)';
     return `
       <div class="topic-row">
@@ -894,26 +919,24 @@ function renderResult(){
         <span class="topic-name">${t.label}</span>
         <div class="topic-bar"><div class="topic-fill" style="width:${p}%;background:${color}"></div></div>
         <span class="topic-score">${v.correct}/${v.total}</span>
-      </div>
-    `;
+      </div>`;
   }).join('');
 
   const recordBlock = !isRetry ? (
     state.isRecord
       ? '<div class="record-badge">🏆 Новый рекорд!</div>'
-      : (state.prevBest !== null ? `<div class="personal-best">Личный рекорд: ${Math.round(state.prevBest * 100)}%</div>` : '')
+      : (state.prevBest !== null ? `<div class="personal-best">Личный рекорд: ${Math.round(state.prevBest*100)}%</div>` : '')
   ) : '';
 
   const retryBlock = state.wrongQuestions.length > 0 ? `
     <div class="retry-mistakes">
       <span class="retry-icon">🔁</span>
-      <div class="retry-text"><strong>${state.wrongQuestions.length} ${plural(state.wrongQuestions.length,'ошибка','ошибки','ошибок')}</strong> — закрепим?</div>
+      <div class="retry-text"><strong>${state.wrongQuestions.length} ${plural(state.wrongQuestions.length,'ошибка','ошибки','ошибок')}</strong> — закрепим на похожих заданиях?</div>
       <button class="btn btn-secondary retry-btn" data-action="retry-mistakes">Повторить</button>
-    </div>
-  ` : '';
+    </div>` : '';
 
   return `
-    <section class="result">
+    <section class="result" role="status" aria-live="polite">
       <span class="result-emoji">${emoji}</span>
       <h2>${title}</h2>
       ${recordBlock}
@@ -924,6 +947,7 @@ function renderResult(){
       ${topicsHtml ? `<div class="topic-breakdown"><h3>Результаты по темам</h3>${topicsHtml}</div>` : ''}
       <div class="result-actions">
         <button class="btn btn-primary" data-action="restart">Пройти ещё раз →</button>
+        ${!isRetry ? '<button class="btn btn-secondary" data-action="share">Поделиться</button>' : ''}
         <button class="btn btn-secondary" data-action="home">К истории</button>
       </div>
     </section>`;
@@ -938,49 +962,65 @@ function startGame(topicFilter){
   state.isRecord = false; state.prevBest = null;
   state.isRetry = false;
   state.wrongQuestions = [];
+  state.topicStreak = { compare: 0, identify: 0, add: 0, simplify: 0 };
   render();
 }
 
 function retryMistakes(){
-  if (!state.wrongQuestions.length) return;
-  state.questions = state.wrongQuestions.slice();
+  if(!state.wrongQuestions.length) return;
+  /* Уровень 1: генерим заново тот же тип — новые числа */
+  state.questions = state.wrongQuestions.map(w => generateByType(w.type));
   state.wrongQuestions = [];
   state.current = 0; state.score = 0; state.streak = 0; state.bestStreak = 0;
   state.answered = false; state.selectedIndex = null; state.screen = 'quiz';
   state.byTopic = {};
   state.isRetry = true;
+  state.topicStreak = { compare: 0, identify: 0, add: 0, simplify: 0 };
   render();
 }
 
 function answer(index){
-  if (state.answered) return;
+  if(state.answered) return;
   const q = state.questions[state.current];
   state.answered = true;
   state.selectedIndex = index;
   const ok = q.options[index].correct;
   const topic = q.type;
-  if (!state.byTopic[topic]) state.byTopic[topic] = {correct:0, total:0};
+  if(!state.byTopic[topic]) state.byTopic[topic] = {correct:0, total:0};
   state.byTopic[topic].total++;
-  if (ok) {
+
+  if(ok){
     state.score++;
     state.streak++;
     state.byTopic[topic].correct++;
-    if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+    if(state.streak > state.bestStreak) state.bestStreak = state.streak;
+    /* Уровень 1: адаптивная сложность — 2 подряд → уровень вверх */
+    state.topicStreak[topic]++;
+    if(state.topicStreak[topic] >= 2 && state.topicDifficulty[topic] < 3){
+      state.topicDifficulty[topic]++;
+      state.topicStreak[topic] = 0;
+      saveDifficulty();
+    }
     playCorrect();
   } else {
     state.streak = 0;
-    state.wrongQuestions.push(q);
+    state.topicStreak[topic] = 0;
+    if(state.topicDifficulty[topic] > 1){
+      state.topicDifficulty[topic]--;
+      saveDifficulty();
+    }
+    state.wrongQuestions.push({ type: q.type });
     playWrong();
   }
   render();
 }
 
 function next(){
-  if (!state.answered) return;
-  if (state.current === state.questions.length - 1) {
-    if (!state.isRetry) {
+  if(!state.answered) return;
+  if(state.current === state.questions.length - 1){
+    if(!state.isRetry){
       const prevHistory = loadHistory();
-      const prevBest = prevHistory.length ? Math.max(...prevHistory.map(r => r.score / r.total)) : 0;
+      const prevBest = prevHistory.length ? Math.max(...prevHistory.map(r => r.score/r.total)) : 0;
       const currentPct = state.score / state.questions.length;
       state.isRecord = prevHistory.length > 0 && currentPct > prevBest;
       state.prevBest = prevHistory.length > 0 ? prevBest : null;
@@ -1001,21 +1041,63 @@ function next(){
   render();
 }
 
-/* ===================== ЭКСПОРТ ===================== */
-function exportHistory(){
-  const data = loadHistory();
-  if (!data.length) return;
-  try {
-    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `fractions-history-${new Date().toISOString().slice(0,10)}.json`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url), 1000);
-  } catch (e) {}
+/* ===================== ПОДЕЛИТЬСЯ (Canvas PNG) ===================== */
+function shareResult(){
+  const total = state.questions.length;
+  const pct = Math.round((state.score/total) * 100);
+  const W = 600, H = 400;
+  const canvas = document.createElement('canvas');
+  const scale = Math.max(1, window.devicePixelRatio || 1);
+  canvas.width = W * scale;
+  canvas.height = H * scale;
+  const ctx = canvas.getContext('2d');
+  if(!ctx){ showToast('Не удалось создать картинку'); return; }
+  ctx.scale(scale, scale);
+
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, '#6366f1');
+  grad.addColorStop(1, '#8b5cf6');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(40, 40, W - 80, H - 80);
+
+  ctx.fillStyle = 'rgba(99,102,241,0.06)';
+  ctx.fillRect(60, 60, W - 120, H - 120);
+
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  ctx.font = 'bold 24px -apple-system, BlinkMacSystemFont, sans-serif';
+  ctx.fillStyle = '#6366f1';
+  const statusText = pct === 100 ? 'ИДЕАЛЬНО!' : pct >= 75 ? 'ОТЛИЧНО!' : pct >= 50 ? 'ХОРОШО' : 'ГЛАВНОЕ — ПРАКТИКА';
+  ctx.fillText(statusText, W / 2, 130);
+
+  ctx.font = 'bold 80px -apple-system, BlinkMacSystemFont, sans-serif';
+  ctx.fillStyle = '#0f172a';
+  ctx.fillText(`${state.score} / ${total}`, W / 2, 210);
+
+  ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, sans-serif';
+  ctx.fillStyle = '#64748b';
+  ctx.fillText(`${pct}%`, W / 2, 275);
+
+  ctx.font = '600 16px -apple-system, BlinkMacSystemFont, sans-serif';
+  ctx.fillStyle = '#94a3b8';
+  ctx.fillText('Дроби без стресса · тренажёр для 5–6 класса', W / 2, 345);
+
+  try{
+    const dataUrl = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.download = `fractions-result-${Date.now()}.png`;
+    link.href = dataUrl;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    showToast('Картинка сохранена');
+  } catch {
+    showToast('Не удалось сохранить');
+  }
 }
 
 /* ===================== ДИАГНОСТИКА ===================== */
@@ -1023,44 +1105,53 @@ function runDiagnostics(){
   const issues = [];
   const checkQuestion = (q, name) => {
     const expected = q.type === 'compare' ? 3 : 4;
-    if (!q.options || q.options.length !== expected) {
-      issues.push(`${name}: options.length=${q.options ? q.options.length : 'null'} (ожидалось ${expected})`);
+    if(!q.options || q.options.length !== expected){
+      issues.push(`${name}: options.length=${q.options?q.options.length:'null'} (ожидалось ${expected})`);
       return;
     }
     const correctCount = q.options.filter(o => o.correct).length;
-    if (correctCount !== 1) issues.push(`${name}: correct count=${correctCount} (ожидалось 1)`);
+    if(correctCount !== 1) issues.push(`${name}: correct count=${correctCount}`);
     const labels = q.options.map(o => o.label);
-    for (let a = 0; a < labels.length; a++) {
-      for (let b = a + 1; b < labels.length; b++) {
-        if (fracEq(labels[a], labels[b])) issues.push(`${name}: дубли по значению ${labels[a]} = ${labels[b]}`);
+    for(let a=0;a<labels.length;a++){
+      for(let b=a+1;b<labels.length;b++){
+        if(fracEq(labels[a], labels[b])) issues.push(`${name}: дубли ${labels[a]} = ${labels[b]}`);
       }
     }
   };
   const N = 2000;
   let t;
   t = performance.now();
-  for (let i = 0; i < N; i++) { if (i < 200) continue; checkQuestion(makeCompare(), 'makeCompare'); }
+  for(let i=0;i<N;i++){ if(i<200) continue; checkQuestion(makeCompare(), 'makeCompare'); }
   const tCompare = performance.now() - t;
   t = performance.now();
-  for (let i = 0; i < N; i++) checkQuestion(makeIdentify(), 'makeIdentify');
+  for(let i=0;i<N;i++) checkQuestion(makeIdentify(), 'makeIdentify');
   const tIdentify = performance.now() - t;
   t = performance.now();
-  for (let i = 0; i < N; i++) checkQuestion(makeAdd(), 'makeAdd');
+  for(let i=0;i<N;i++) checkQuestion(makeAdd(), 'makeAdd');
   const tAdd = performance.now() - t;
   t = performance.now();
-  for (let i = 0; i < N; i++) checkQuestion(makeAdd(3), 'makeAdd(d=3)');
+  for(let i=0;i<N;i++) checkQuestion(makeAdd(3), 'makeAdd(d=3)');
   const tAddD3 = performance.now() - t;
   t = performance.now();
-  for (let i = 0; i < N; i++) checkQuestion(makeSimplify(), 'makeSimplify');
+  for(let i=0;i<N;i++) checkQuestion(makeSimplify(), 'makeSimplify');
   const tSimplify = performance.now() - t;
   t = performance.now();
-  for (let i = 0; i < 1000; i++) checkQuestion(makeIdentify(2), 'makeIdentify(d=2)');
-  for (let i = 0; i < 1000; i++) checkQuestion(makeIdentify(8), 'makeIdentify(d=8)');
+  for(let i=0;i<1000;i++) checkQuestion(makeIdentify(2), 'makeIdentify(d=2)');
+  for(let i=0;i<1000;i++) checkQuestion(makeIdentify(8), 'makeIdentify(d=8)');
   const tIdentifyEdge = performance.now() - t;
+  /* Проверка всех уровней сложности */
+  t = performance.now();
+  for(const diff of [1,2,3]){
+    for(let i=0;i<500;i++){ checkQuestion(makeCompare(diff), `makeCompare(diff=${diff})`); }
+    for(let i=0;i<500;i++){ checkQuestion(makeIdentify(undefined, diff), `makeIdentify(diff=${diff})`); }
+    for(let i=0;i<500;i++){ checkQuestion(makeAdd(undefined, diff), `makeAdd(diff=${diff})`); }
+    for(let i=0;i<500;i++){ checkQuestion(makeSimplify(diff), `makeSimplify(diff=${diff})`); }
+  }
+  const tDifficulty = performance.now() - t;
   return {
     issues: issues.slice(0, 10),
     total: issues.length,
-    times: {tCompare, tIdentify, tAdd, tAddD3, tSimplify, tIdentifyEdge}
+    times: { tCompare, tIdentify, tAdd, tAddD3, tSimplify, tIdentifyEdge, tDifficulty }
   };
 }
 window.diag = function(){
@@ -1071,24 +1162,74 @@ window.diag = function(){
   return r;
 };
 
+/* ===================== TEACHER VIEW ===================== */
+function renderTeacher(){
+  const history = loadHistory();
+  const agg = aggregateTopics(history);
+
+  const topicRows = Object.entries(agg).map(([k,v])=>{
+    if(!v.total) return '';
+    const t = TOPICS[k];
+    const pct = Math.round(v.correct/v.total*100);
+    return `<tr><td>${t.icon} ${t.label}</td><td>${v.correct}/${v.total}</td><td>${pct}%</td></tr>`;
+  }).join('');
+
+  const attemptRows = history.slice().reverse().map(r=>{
+    const when = new Date(r.ts || 0).toLocaleString('ru-RU', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'});
+    const pct = r.total ? Math.round(r.score/r.total*100) : 0;
+    return `<tr><td>${when}</td><td>${r.score}/${r.total}</td><td>${pct}%</td></tr>`;
+  }).join('');
+
+  return `
+    <section class="card" style="margin-top:16px">
+      <h2 style="margin-bottom:8px">👩‍🏫 Панель учителя</h2>
+      <p style="color:var(--slate-500);font-size:.9375rem;margin-bottom:24px">
+        Обезличенная статистика по этому устройству. Данные хранятся в localStorage браузера ученика.
+      </p>
+      ${history.length === 0 ? '<p>Пока нет прохождений.</p>' : `
+        <h3 style="font-size:1rem;margin-bottom:8px">Прогресс по темам</h3>
+        <table class="teacher-table">
+          <thead><tr><th>Тема</th><th>Верно</th><th>Процент</th></tr></thead>
+          <tbody>${topicRows}</tbody>
+        </table>
+        <h3 style="font-size:1rem;margin-top:24px;margin-bottom:8px">Последние прохождения (${history.length})</h3>
+        <table class="teacher-table">
+          <thead><tr><th>Когда</th><th>Результат</th><th>%</th></tr></thead>
+          <tbody>${attemptRows}</tbody>
+        </table>
+      `}
+      <p style="margin-top:24px">
+        <a href="./" style="color:var(--indigo);font-weight:700">← Вернуться к тренажёру</a>
+      </p>
+    </section>
+  `;
+}
+
 /* ===================== СОБЫТИЯ ===================== */
 document.addEventListener('click', e => {
   const btn = e.target.closest('[data-action]');
-  if (!btn) return;
+  if(!btn) return;
+  unlockAudio();
   const a = btn.dataset.action;
 
-  if (a === 'toggle-theme') { toggleTheme(); return; }
-  if (a === 'toggle-sound') { toggleSound(); return; }
+  if(a === 'toggle-theme'){ toggleTheme(); return; }
+  if(a === 'toggle-sound'){ toggleSound(); return; }
 
-  if (a === 'start' || a === 'restart') { playClick(); startGame(); }
-  else if (a === 'train-topic') { playClick(); startGame(btn.dataset.topic); }
-  else if (a === 'answer') { answer(Number(btn.dataset.index)); }
-  else if (a === 'next') { next(); }
-  else if (a === 'retry-mistakes') { playClick(); retryMistakes(); }
-  else if (a === 'home') { playClick(); state.screen = 'start'; render(); }
-  else if (a === 'export-history') { exportHistory(); }
-  else if (a === 'reset-history') {
-    if (confirm('Удалить всю историю прохождений? Это действие нельзя отменить.')) {
+  if(a === 'start' || a === 'restart'){ playClick(); startGame(); }
+  else if(a === 'train-topic'){ playClick(); startGame(btn.dataset.topic); }
+  else if(a === 'answer'){ answer(Number(btn.dataset.index)); }
+  else if(a === 'next'){ next(); }
+  else if(a === 'retry-mistakes'){ playClick(); retryMistakes(); }
+  else if(a === 'share'){ playClick(); shareResult(); }
+  else if(a === 'home'){
+    playClick();
+    state.screen = 'start';
+    state.wrongQuestions = [];
+    state.isRetry = false;
+    render();
+  }
+  else if(a === 'reset-history'){
+    if(confirm('Удалить всю историю прохождений? Это действие нельзя отменить.')){
       clearHistory();
       render();
     }
@@ -1096,26 +1237,26 @@ document.addEventListener('click', e => {
 });
 
 document.addEventListener('keydown', e => {
-  if (state.screen !== 'quiz') return;
+  if(state.screen !== 'quiz') return;
   const q = state.questions[state.current];
-  if (!state.answered) {
+  if(!state.answered){
     const n = parseInt(e.key, 10);
-    if (n >= 1 && n <= q.options.length) { e.preventDefault(); answer(n - 1); }
-  } else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); next(); }
+    if(n >= 1 && n <= q.options.length){ e.preventDefault(); answer(n - 1); }
+  } else if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); next(); }
 });
 
 /* ===================== ИНИЦИАЛИЗАЦИЯ ===================== */
 state.theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-try {
+try{
   const s = localStorage.getItem('sound');
   state.soundOn = s === null ? true : s === '1';
-} catch { state.soundOn = true; }
+}catch{ state.soundOn = true; }
+state.topicDifficulty = loadDifficulty();
 
 syncToolbar();
-render();
 
-/* ===================== SELFTEST (?selftest) ===================== */
-if (new URLSearchParams(location.search).has('selftest')) {
+const urlParams = new URLSearchParams(location.search);
+if(urlParams.has('selftest')){
   const r = runDiagnostics();
   const t = r.times;
   document.getElementById('app').innerHTML = `
@@ -1129,12 +1270,16 @@ if (new URLSearchParams(location.search).has('selftest')) {
       <div>makeAdd(d=3): ${Math.round(t.tAddD3)} ms</div>
       <div>makeSimplify: ${Math.round(t.tSimplify)} ms</div>
       <div>makeIdentify(d=2,8): ${Math.round(t.tIdentifyEdge)} ms</div>
+      <div>Все уровни сложности (1,2,3): ${Math.round(t.tDifficulty)} ms</div>
       ${r.issues.length ? `<hr style="margin:16px 0;border:none;border-top:1px solid var(--slate-200)"><pre style="white-space:pre-wrap">${r.issues.join('\n')}</pre>` : ''}
       <p style="margin-top:24px;font-family:Manrope,sans-serif">
         <a href="./" style="color:var(--indigo);font-weight:700">← Вернуться к тренажёру</a>
       </p>
-    </section>
-  `;
+    </section>`;
+} else if(urlParams.has('teacher')){
+  document.getElementById('app').innerHTML = renderTeacher();
+} else {
+  render();
 }
 </script>
 </body>
