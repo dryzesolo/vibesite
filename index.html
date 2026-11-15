@@ -58,7 +58,8 @@ body{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   padding:16px 32px;font-family:inherit;font-size:1.0625rem;font-weight:700;
   border:none;border-radius:var(--radius);cursor:pointer;line-height:1.2;
-  transition:transform .15s,box-shadow .15s;-webkit-tap-highlight-color:transparent;
+  transition:transform .15s,box-shadow .15s,background .15s,border-color .15s;
+  -webkit-tap-highlight-color:transparent;
 }
 .btn:active{transform:translateY(1px) scale(.995)}
 .btn:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
@@ -67,6 +68,11 @@ body{
   color:#fff;box-shadow:0 6px 20px rgba(99,102,241,.35);
 }
 .btn-primary:hover{box-shadow:0 8px 28px rgba(99,102,241,.45);transform:translateY(-1px)}
+.btn-secondary{
+  background:#fff;color:var(--slate-700);border:2px solid var(--slate-200);
+  padding:14px 28px;font-size:1rem;
+}
+.btn-secondary:hover{border-color:var(--slate-300);background:var(--slate-50)}
 .quiz-header{margin-bottom:20px;padding:0 4px}
 .quiz-meta{display:flex;justify-content:space-between;align-items:center;
   font-size:.9375rem;font-weight:700;color:var(--slate-600);margin-bottom:10px}
@@ -137,6 +143,30 @@ body{
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .result-streak{color:var(--amber);font-weight:700;margin-bottom:8px}
 .result-message{color:var(--slate-500);font-size:1.0625rem;margin-bottom:32px;line-height:1.5}
+.record-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(244,63,94,.1));
+  color:var(--amber);font-size:.875rem;font-weight:800;
+  padding:6px 14px;border-radius:100px;margin-bottom:8px;
+  border:1px solid rgba(245,158,11,.25);
+}
+.personal-best{color:var(--slate-500);font-size:.9375rem;margin-bottom:8px;font-weight:600}
+.result-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.topic-breakdown{
+  margin-top:32px;padding-top:24px;border-top:1px solid var(--slate-100);text-align:left;
+}
+.topic-breakdown h3{
+  font-size:.8125rem;font-weight:700;color:var(--slate-500);
+  margin-bottom:16px;text-align:center;text-transform:uppercase;letter-spacing:.05em;
+}
+.topic-row{
+  display:grid;grid-template-columns:24px 1fr 100px 48px;gap:12px;align-items:center;padding:10px 0;
+}
+.topic-icon{font-size:1.25rem;text-align:center}
+.topic-name{font-size:.9375rem;font-weight:600;color:var(--slate-700)}
+.topic-bar{height:8px;background:var(--slate-100);border-radius:100px;overflow:hidden}
+.topic-fill{height:100%;border-radius:100px;transition:width .5s ease}
+.topic-score{font-size:.875rem;font-weight:700;color:var(--slate-600);text-align:right;font-variant-numeric:tabular-nums}
 .bar-legend{display:flex;gap:14px;justify-content:center;align-items:center;
   margin-top:14px;font-size:.9375rem;font-weight:600;color:var(--slate-600);flex-wrap:wrap}
 .bar-legend span{display:inline-flex;align-items:center;gap:6px}
@@ -144,6 +174,46 @@ body{
 .dot{width:12px;height:12px;border-radius:50%;display:inline-block}
 .dot-a{background:linear-gradient(135deg,var(--indigo),var(--violet))}
 .dot-b{background:linear-gradient(135deg,var(--amber),var(--rose))}
+
+/* ---------- History stats card ---------- */
+.stats-card{margin-top:24px;padding:32px}
+.stats-header{display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.stats-header h2{font-size:1.25rem;font-weight:800;letter-spacing:-.01em}
+.stats-count{font-size:.8125rem;font-weight:700;color:var(--slate-500);
+  background:var(--slate-100);padding:4px 12px;border-radius:100px;white-space:nowrap}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.stat{padding:16px 10px;background:linear-gradient(135deg,var(--slate-50),#fff);
+  border-radius:var(--radius);border:1px solid var(--slate-100);text-align:center}
+.stat-value{font-size:1.5rem;font-weight:800;line-height:1.1;margin-bottom:4px;
+  background:linear-gradient(135deg,var(--indigo),var(--violet));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:.75rem;font-weight:600;color:var(--slate-500);
+  text-transform:uppercase;letter-spacing:.03em}
+.chart-wrap{margin-bottom:20px}
+.chart-title{font-size:.875rem;font-weight:700;color:var(--slate-600);margin-bottom:8px}
+.history-chart{width:100%;height:auto;display:block}
+.chart-legend{display:flex;gap:16px;justify-content:center;margin-top:10px;
+  font-size:.8125rem;font-weight:600;color:var(--slate-500);flex-wrap:wrap}
+.chart-legend span{display:inline-flex;align-items:center;gap:6px}
+.chart-legend .dot{width:10px;height:10px}
+.weak-topic{
+  display:flex;gap:14px;align-items:center;padding:14px 18px;
+  background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(244,63,94,.05));
+  border:1px solid rgba(245,158,11,.2);border-radius:var(--radius);margin-bottom:16px;
+}
+.weak-icon{font-size:1.5rem;line-height:1}
+.weak-title{font-size:.75rem;font-weight:700;color:var(--slate-500);
+  text-transform:uppercase;letter-spacing:.05em}
+.weak-body{font-size:.9375rem;color:var(--slate-700);margin-top:2px}
+.stats-footer{text-align:center;padding-top:8px}
+.link-btn{background:none;border:none;color:var(--slate-500);
+  font-size:.8125rem;font-weight:600;cursor:pointer;padding:6px 12px;
+  font-family:inherit;border-radius:8px;text-decoration:underline;
+  text-decoration-color:var(--slate-300);text-underline-offset:3px}
+.link-btn:hover{color:var(--rose);text-decoration-color:currentColor}
+.link-btn:focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
+
 @media(max-width:480px){
   body{padding:16px 12px}
   .hero,.result{padding:32px 24px;border-radius:var(--radius-lg)}
@@ -156,6 +226,15 @@ body{
   .next-wrap .btn{width:100%}
   .compare-visual{gap:12px}
   .feedback{padding:14px 16px;gap:10px}
+  .stats-card{padding:24px 20px;border-radius:var(--radius-lg);margin-top:16px}
+  .stats-grid{gap:8px}
+  .stat{padding:12px 6px}
+  .stat-value{font-size:1.25rem}
+  .stat-label{font-size:.6875rem}
+  .topic-row{grid-template-columns:20px 1fr 70px 44px;gap:8px}
+  .topic-name{font-size:.875rem}
+  .result-actions{flex-direction:column;align-items:stretch}
+  .result-actions .btn{width:100%}
 }
 </style>
 </head>
@@ -170,6 +249,61 @@ const fracHTML = (n,d)=>`<span class="frac"><span class="num">${n}</span><span c
 const renderLabel = label=>{const m=String(label).match(/^(\d+)\/(\d+)$/);return m?fracHTML(m[1],m[2]):String(label);};
 const fractionBar = (n,d)=>{let h='<div class="frac-bar">';for(let i=0;i<d;i++)h+=`<div class="frac-seg ${i<n?'filled':''}"></div>`;return h+'</div>';};
 const fractionBarDual = (n1,n2,d)=>{let h='<div class="frac-bar">';for(let i=0;i<d;i++){const cls=i<n1?'filled':(i<n1+n2?'filled-alt':'');h+=`<div class="frac-seg ${cls}"></div>`;}return h+'</div>';};
+const plural = (n,one,few,many)=>{
+  const a=Math.abs(n)%100, b=a%10;
+  if(a>10 && a<20) return many;
+  if(b>1 && b<5) return few;
+  if(b===1) return one;
+  return many;
+};
+
+/* ---------- Темы ---------- */
+const TOPICS = {
+  compare:  {label:'Сравнение',       icon:'⚖️'},
+  identify: {label:'Дробь по картинке',icon:'🔍'},
+  add:      {label:'Сложение',        icon:'➕'}
+};
+
+/* ---------- Хранилище истории ---------- */
+const STORAGE_KEY = 'fractions-trainer-history-v1';
+function loadHistory(){
+  try{const raw=localStorage.getItem(STORAGE_KEY);const h=raw?JSON.parse(raw):[];return Array.isArray(h)?h:[];}
+  catch{return[];}
+}
+function saveRun(run){
+  try{
+    const h=loadHistory();
+    h.push(run);
+    if(h.length>50) h.shift();
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(h));
+  }catch{}
+}
+function clearHistory(){
+  try{localStorage.removeItem(STORAGE_KEY);}catch{}
+}
+function aggregateTopics(runs){
+  const agg={compare:{correct:0,total:0},identify:{correct:0,total:0},add:{correct:0,total:0}};
+  runs.forEach(run=>{
+    if(!run.byTopic) return;
+    Object.keys(run.byTopic).forEach(k=>{
+      if(agg[k]){
+        agg[k].correct += run.byTopic[k].correct||0;
+        agg[k].total   += run.byTopic[k].total||0;
+      }
+    });
+  });
+  return agg;
+}
+function findWeakest(agg){
+  let weakest=null;
+  Object.entries(agg).forEach(([k,v])=>{
+    if(v.total<2) return;
+    const ratio=v.correct/v.total;
+    if(ratio>=0.9) return;
+    if(!weakest || ratio<weakest.ratio) weakest={topic:k,ratio,...v};
+  });
+  return weakest;
+}
 
 /* ---------- Генераторы заданий ---------- */
 function makeCompare(){
@@ -197,7 +331,7 @@ function buildCompare(a,b,isEqual){
   ];
   let explanation;
   if(isEqual||diff===0){
-    explanation=`${a.n}/${a.d} и ${b.n}/${b.d} — это равные дроби. Если умножить числитель и знаменатель на одно и то же число, значение не меняется.`;
+    explanation=`${a.n}/${a.d} и ${b.n}/${b.d} — равные дроби. Если умножить числитель и знаменатель на одно и то же число, значение не меняется.`;
   } else if(a.d===b.d){
     explanation=`Знаменатели одинаковые, сравниваем числители: ${a.n} ${sym} ${b.n}. Значит, ${a.n}/${a.d} ${sym} ${b.n}/${b.d}.`;
   } else if(a.n===b.n){
@@ -216,7 +350,6 @@ function buildCompare(a,b,isEqual){
     options, explanation
   };
 }
-
 function makeIdentify(){
   const d=randInt(2,8), n=randInt(1,d-1);
   const correct=`${n}/${d}`;
@@ -243,7 +376,6 @@ function makeIdentify(){
     explanation:`Полоска разделена на ${d} равных частей, закрашено ${n}. Значит, закрашено ${n}/${d} всей полоски.`
   };
 }
-
 function makeAdd(){
   const d=randInt(3,9);
   const n1=randInt(1,Math.floor((d-1)/2));
@@ -278,7 +410,6 @@ function makeAdd(){
     explanation:`Знаменатели одинаковые, поэтому складываем числители: ${n1} + ${n2} = ${sum}. Получаем ${sum}/${d}.`
   };
 }
-
 function buildQuestionSet(){
   const gens=[makeCompare,makeCompare,makeIdentify,makeIdentify,makeAdd,makeAdd];
   const shuffled=shuffle(gens);
@@ -288,7 +419,12 @@ function buildQuestionSet(){
 }
 
 /* ---------- Состояние ---------- */
-const state={screen:'start',questions:[],current:0,score:0,bestStreak:0,streak:0,answered:false,selectedIndex:null};
+const state={
+  screen:'start', questions:[], current:0, score:0,
+  bestStreak:0, streak:0, answered:false, selectedIndex:null,
+  byTopic:{},
+  isRecord:false, prevBest:null
+};
 
 /* ---------- Рендеринг ---------- */
 function render(){
@@ -299,6 +435,7 @@ function render(){
 }
 
 function renderStart(){
+  const history=loadHistory();
   return `
     <section class="hero">
       <div class="badge">Математика · 5–6 класс</div>
@@ -310,10 +447,96 @@ function renderStart(){
       <div class="features">
         <div class="feature"><span class="icon">👀</span>Наглядные полоски</div>
         <div class="feature"><span class="icon">💡</span>Объяснения после ответа</div>
-        <div class="feature"><span class="icon">⚡</span>8 заданий за 5 минут</div>
+        <div class="feature"><span class="icon">📊</span>История прогресса</div>
       </div>
       <button class="btn btn-primary" data-action="start">Начать тренировку →</button>
-    </section>`;
+    </section>
+    ${history.length ? renderStatsCard(history) : ''}
+  `;
+}
+
+function renderStatsCard(history){
+  const attempts=history.length;
+  const best=Math.max(...history.map(r=>r.score/r.total));
+  const avg=history.reduce((s,r)=>s+r.score/r.total,0)/attempts;
+  const agg=aggregateTopics(history);
+  const weak=findWeakest(agg);
+  const lastN=Math.min(history.length,10);
+
+  return `
+    <section class="card stats-card">
+      <div class="stats-header">
+        <h2>📊 Твоя история</h2>
+        <span class="stats-count">${attempts} ${plural(attempts,'попытка','попытки','попыток')}</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-value">${Math.round(best*100)}%</div>
+          <div class="stat-label">Лучший</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">${Math.round(avg*100)}%</div>
+          <div class="stat-label">В среднем</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">${attempts}</div>
+          <div class="stat-label">Попыток</div>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Последние ${lastN} ${plural(lastN,'прохождение','прохождения','прохождений')}</div>
+        ${renderHistoryChart(history)}
+        <div class="chart-legend">
+          <span><i class="dot" style="background:var(--rose)"></i>≤50%</span>
+          <span><i class="dot" style="background:var(--amber)"></i>50–75%</span>
+          <span><i class="dot" style="background:var(--emerald)"></i>≥75%</span>
+        </div>
+      </div>
+      ${weak?renderWeakTopic(weak):''}
+      <div class="stats-footer">
+        <button class="link-btn" data-action="reset-history">Сбросить историю</button>
+      </div>
+    </section>
+  `;
+}
+
+function renderWeakTopic(weak){
+  const t=TOPICS[weak.topic];
+  return `
+    <div class="weak-topic">
+      <span class="weak-icon">🎯</span>
+      <div>
+        <div class="weak-title">Слабое место</div>
+        <div class="weak-body">${t.icon} <strong>${t.label}</strong> — ${weak.correct} из ${weak.total} верно (${Math.round(weak.ratio*100)}%)</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderHistoryChart(history){
+  const last=history.slice(-10);
+  const W=300, H=120, TOP=20, BOTTOM=110, BAR_MAX_H=BOTTOM-TOP;
+  const barW=22, gap=6;
+  const totalW=last.length*barW+(last.length-1)*gap;
+  const startX=(W-totalW)/2;
+  let bars='';
+  // grid at 50%
+  const gridY=TOP+BAR_MAX_H*0.5;
+  bars+=`<line x1="0" y1="${gridY}" x2="${W}" y2="${gridY}" stroke="#e2e8f0" stroke-dasharray="4 4" stroke-width="1"/>`;
+  last.forEach((run,i)=>{
+    const pct=run.score/run.total;
+    const barH=Math.max(4,pct*BAR_MAX_H);
+    const x=startX+i*(barW+gap);
+    const y=BOTTOM-barH;
+    const color=pct>=0.75?'#10b981':pct>=0.5?'#f59e0b':'#f43f5e';
+    const when=new Date(run.ts||Date.now()).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    bars+=`<rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="3" fill="${color}">
+      <title>${when} — ${run.score}/${run.total} (${Math.round(pct*100)}%)</title>
+    </rect>`;
+    bars+=`<text x="${x+barW/2}" y="${y-4}" text-anchor="middle" font-size="9" font-weight="700"
+             fill="#475569" font-family="Manrope,sans-serif">${Math.round(pct*100)}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" class="history-chart" role="img" aria-label="История прохождений">${bars}</svg>`;
 }
 
 function renderQuiz(){
@@ -375,14 +598,41 @@ function renderResult(){
   else if(pct>=75){emoji='🌟';title='Отличный результат!';message='Дроби почти освоены. Ещё немного практики — и будет идеально.';}
   else if(pct>=50){emoji='👍';title='Хороший старт!';message='Уже многое получается. Пройди ещё раз — и результат вырастет.';}
   else{emoji='💪';title='Главное — практика';message='Дроби — это навык. Попробуй ещё раз: с каждым проходом будет понятнее.';}
+
+  const topicsHtml=Object.entries(state.byTopic).map(([k,v])=>{
+    const t=TOPICS[k];
+    const p=v.total?Math.round(v.correct/v.total*100):0;
+    const color=p>=75?'var(--emerald)':p>=50?'var(--amber)':'var(--rose)';
+    return `
+      <div class="topic-row">
+        <span class="topic-icon">${t.icon}</span>
+        <span class="topic-name">${t.label}</span>
+        <div class="topic-bar"><div class="topic-fill" style="width:${p}%;background:${color}"></div></div>
+        <span class="topic-score">${v.correct}/${v.total}</span>
+      </div>
+    `;
+  }).join('');
+
   return `
     <section class="result">
       <span class="result-emoji">${emoji}</span>
       <h2>${title}</h2>
+      ${state.isRecord?'<div class="record-badge">🏆 Новый рекорд!</div>':(
+        state.prevBest!==null?`<div class="personal-best">Личный рекорд: ${Math.round(state.prevBest*100)}%</div>`:''
+      )}
       <div class="result-score">${state.score} / ${total}</div>
       ${state.bestStreak>=3?`<p class="result-streak">🔥 Лучшая серия подряд: ${state.bestStreak}</p>`:''}
       <p class="result-message">${message}</p>
-      <button class="btn btn-primary" data-action="restart">Пройти ещё раз →</button>
+      ${topicsHtml?`
+        <div class="topic-breakdown">
+          <h3>Результаты по темам</h3>
+          ${topicsHtml}
+        </div>
+      `:''}
+      <div class="result-actions">
+        <button class="btn btn-primary" data-action="restart">Пройти ещё раз →</button>
+        <button class="btn btn-secondary" data-action="home">К истории</button>
+      </div>
     </section>`;
 }
 
@@ -391,20 +641,49 @@ function startGame(){
   state.questions=buildQuestionSet();
   state.current=0; state.score=0; state.streak=0; state.bestStreak=0;
   state.answered=false; state.selectedIndex=null; state.screen='quiz';
+  state.byTopic={};
+  state.isRecord=false; state.prevBest=null;
   render();
 }
 function answer(index){
   if(state.answered) return;
   const q=state.questions[state.current];
-  state.answered=true; state.selectedIndex=index;
-  if(q.options[index].correct){state.score++;state.streak++;state.bestStreak=Math.max(state.bestStreak,state.streak);}
-  else state.streak=0;
+  state.answered=true;
+  state.selectedIndex=index;
+  const ok=q.options[index].correct;
+  const topic=q.type;
+  if(!state.byTopic[topic]) state.byTopic[topic]={correct:0,total:0};
+  state.byTopic[topic].total++;
+  if(ok){
+    state.score++;
+    state.streak++;
+    state.byTopic[topic].correct++;
+    if(state.streak>state.bestStreak) state.bestStreak=state.streak;
+  } else {
+    state.streak=0;
+  }
   render();
 }
 function next(){
   if(!state.answered) return;
-  if(state.current===state.questions.length-1) state.screen='result';
-  else{state.current++;state.answered=false;state.selectedIndex=null;}
+  if(state.current===state.questions.length-1){
+    const prevHistory=loadHistory();
+    const prevBest=prevHistory.length?Math.max(...prevHistory.map(r=>r.score/r.total)):0;
+    const currentPct=state.score/state.questions.length;
+    state.isRecord=prevHistory.length>0 && currentPct>prevBest;
+    state.prevBest=prevHistory.length>0?prevBest:null;
+    saveRun({
+      ts:Date.now(),
+      score:state.score,
+      total:state.questions.length,
+      byTopic:state.byTopic
+    });
+    state.screen='result';
+  } else {
+    state.current++;
+    state.answered=false;
+    state.selectedIndex=null;
+  }
   render();
 }
 
@@ -416,6 +695,12 @@ document.getElementById('app').addEventListener('click',e=>{
   if(a==='start'||a==='restart') startGame();
   else if(a==='answer') answer(Number(btn.dataset.index));
   else if(a==='next') next();
+  else if(a==='home'){ state.screen='start'; render(); }
+  else if(a==='reset-history'){
+    if(confirm('Удалить всю историю прохождений? Это действие нельзя отменить.')){
+      clearHistory(); render();
+    }
+  }
 });
 document.addEventListener('keydown',e=>{
   if(state.screen!=='quiz') return;
