@@ -148,7 +148,45 @@ html[data-theme="dark"] .feedback.bad{background:linear-gradient(135deg,rgba(244
 .feedback.bad .feedback-title{color:var(--rose-dark)}
 html[data-theme="dark"] .feedback.ok .feedback-title{color:#6ee7b7}
 html[data-theme="dark"] .feedback.bad .feedback-title{color:#fda4af}
-.feedback-text{color:var(--slate-700);font-size:.9375rem;line-height:1.5}
+.feedback-text{color:var(--slate-700);font-size:.9375rem;line-height:1.55}
+
+/* ===================== АНИМИРОВАННОЕ ОБЪЯСНЕНИЕ ===================== */
+.explanation-visual{
+  margin-top:16px;padding:16px 20px;
+  background:var(--slate-50);border-radius:var(--radius);
+  border:1px solid var(--slate-200);
+  animation:slideUp .35s cubic-bezier(.4,0,.2,1);
+}
+html[data-theme="dark"] .explanation-visual{background:#0f172a;border-color:#334155}
+.anim-row{position:relative;margin-bottom:14px}
+.anim-row:last-child{margin-bottom:0}
+.anim-row .frac-bar{height:34px}
+
+.anim-row .explanation-label{
+  text-align:center;font-size:.9375rem;font-weight:700;
+  color:var(--slate-600);margin-top:6px;line-height:1.4;
+}
+
+/* «Разрезаемые» сегменты: внутренние границы стартуют прозрачными */
+.frac-seg.sub-border{
+  border-left-color:transparent;
+  transition:background .2s,border-left-color .2s ease;
+}
+.frac-seg.sub-border.shown{
+  border-left-color:var(--slate-300);
+}
+
+/* Итоговая полоска (сумма) — появляется позже, зелёная */
+.anim-sum{
+  opacity:0;transform:translateY(8px);
+  transition:opacity .5s ease,transform .5s ease;
+}
+.anim-sum.show{opacity:1;transform:translateY(0)}
+.anim-sum .frac-bar{border-color:var(--emerald)}
+.anim-sum .frac-seg.filled{background:linear-gradient(135deg,var(--emerald),var(--emerald-dark))}
+.anim-sum .explanation-label{color:var(--emerald-dark)}
+html[data-theme="dark"] .anim-sum .explanation-label{color:#6ee7b7}
+
 .next-wrap{margin-top:20px;display:flex;justify-content:flex-end}
 .result{padding:48px 40px;text-align:center}
 .result-emoji{font-size:4rem;line-height:1;margin-bottom:16px;display:block}
@@ -241,7 +279,6 @@ html[data-theme="dark"] .weak-topic{background:linear-gradient(135deg,rgba(245,1
 .icon-btn:active{transform:translateY(0)}
 .icon-btn:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
 
-/* Toast */
 .toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,100px);
   padding:12px 20px;background:var(--slate-900);color:#fff;border-radius:12px;
   font-size:.9375rem;font-weight:600;opacity:0;transition:all .3s ease;z-index:1000;
@@ -249,7 +286,6 @@ html[data-theme="dark"] .weak-topic{background:linear-gradient(135deg,rgba(245,1
 html[data-theme="dark"] .toast{background:#f1f5f9;color:#0f172a}
 .toast-show{transform:translate(-50%,0);opacity:1}
 
-/* Teacher view */
 .teacher-table{width:100%;border-collapse:collapse;font-size:.875rem;margin-top:12px}
 .teacher-table th{text-align:left;padding:8px 12px;font-weight:700;color:var(--slate-600);
   border-bottom:2px solid var(--slate-200);font-size:.75rem;text-transform:uppercase;letter-spacing:.03em}
@@ -275,6 +311,9 @@ html[data-theme="dark"] .toast{background:#f1f5f9;color:#0f172a}
   .next-wrap .btn{width:100%}
   .compare-visual{gap:12px}
   .feedback{padding:14px 16px;gap:10px}
+  .explanation-visual{padding:12px 14px}
+  .anim-row .frac-bar{height:28px}
+  .anim-row .explanation-label{font-size:.875rem}
   .stats-card{padding:24px 20px;border-radius:var(--radius-lg);margin-top:16px}
   .stats-grid{gap:8px}
   .stat{padding:12px 6px}
@@ -307,6 +346,25 @@ const fracHTML = (n,d)=>`<span class="frac"><span class="num">${n}</span><span c
 const renderLabel = label=>{const m=String(label).match(/^(\d+)\/(\d+)$/);return m?fracHTML(m[1],m[2]):String(label);};
 const fractionBar = (n,d)=>{let h='<div class="frac-bar">';for(let i=0;i<d;i++)h+=`<div class="frac-seg ${i<n?'filled':''}"></div>`;return h+'</div>';};
 const fractionBarDual = (n1,n2,d)=>{let h='<div class="frac-bar">';for(let i=0;i<d;i++){const cls=i<n1?'filled':(i<n1+n2?'filled-alt':'');h+=`<div class="frac-seg ${cls}"></div>`;}return h+'</div>';};
+
+/* «Разрезаемая» полоска: lcm сегментов, sub-border границы стартуют прозрачными */
+function splitBar(filledCount, lcm, originalD){
+  let h = '<div class="frac-bar">';
+  for (let i = 0; i < lcm; i++) {
+    const isFilled = i < filledCount;
+    let isSubBorder = false;
+    if (i > 0) {
+      const pos = i / lcm;
+      const scaled = pos * originalD;
+      if (Math.abs(scaled - Math.round(scaled)) > 0.001) isSubBorder = true;
+    }
+    const classes = ['frac-seg', isFilled ? 'filled' : '', isSubBorder ? 'sub-border' : ''].filter(Boolean).join(' ');
+    h += `<div class="${classes}"></div>`;
+  }
+  h += '</div>';
+  return h;
+}
+
 const plural = (n,one,few,many)=>{
   const a=Math.abs(n)%100, b=a%10;
   if(a>10 && a<20) return many;
@@ -339,6 +397,7 @@ const TOPICS = {
   compare:  {label:'Сравнение',         icon:'⚖️'},
   identify: {label:'Дробь по картинке', icon:'🔍'},
   add:      {label:'Сложение',          icon:'➕'},
+  addDiff:  {label:'Общий знаменатель', icon:'🧩'},
   simplify: {label:'Сокращение',        icon:'✂️'}
 };
 
@@ -375,10 +434,10 @@ const playWrong   = () => { playTone(230, 0.14, 'triangle', 0.07); playTone(180,
 const playComplete= () => { playTone(523,0.12); playTone(659,0.12,'sine',0.08,0.1); playTone(784,0.22,'sine',0.08,0.2); };
 const playClick   = () => { playTone(420, 0.03, 'sine', 0.03); };
 
-/* ===================== ХРАНИЛИЩЕ (v2 + миграция v1) ===================== */
+/* ===================== ХРАНИЛИЩЕ ===================== */
 const STORAGE_KEY = 'fractions-trainer-history-v2';
 const STORAGE_KEY_V1 = 'fractions-trainer-history-v1';
-const DIFF_KEY = 'fractions-trainer-difficulty-v1';
+const DIFF_KEY = 'fractions-trainer-difficulty-v2';
 
 function loadHistory(){
   try{
@@ -416,25 +475,33 @@ function clearHistory(){
 }
 
 function clampDiff(x){ x = Number(x) || 2; return Math.max(1, Math.min(3, x)); }
+function defaultDifficulty(){
+  return { compare: 2, identify: 2, add: 2, addDiff: 2, simplify: 2 };
+}
 function loadDifficulty(){
   try{
     const raw = localStorage.getItem(DIFF_KEY);
     const d = raw ? JSON.parse(raw) : null;
-    if(!d) return { compare: 2, identify: 2, add: 2, simplify: 2 };
+    const def = defaultDifficulty();
+    if(!d) return def;
     return {
-      compare: clampDiff(d.compare),
+      compare:  clampDiff(d.compare),
       identify: clampDiff(d.identify),
-      add: clampDiff(d.add),
+      add:      clampDiff(d.add),
+      addDiff:  clampDiff(d.addDiff),
       simplify: clampDiff(d.simplify)
     };
-  }catch{ return { compare: 2, identify: 2, add: 2, simplify: 2 }; }
+  }catch{ return defaultDifficulty(); }
 }
 function saveDifficulty(){
   try{ localStorage.setItem(DIFF_KEY, JSON.stringify(state.topicDifficulty)); }catch{}
 }
 
 function emptyAgg(){
-  return {compare:{correct:0,total:0},identify:{correct:0,total:0},add:{correct:0,total:0},simplify:{correct:0,total:0}};
+  return {
+    compare:{correct:0,total:0}, identify:{correct:0,total:0},
+    add:{correct:0,total:0}, addDiff:{correct:0,total:0}, simplify:{correct:0,total:0}
+  };
 }
 function aggregateTopics(runs){
   const agg = emptyAgg();
@@ -449,7 +516,6 @@ function aggregateTopics(runs){
   });
   return agg;
 }
-/* Уровень 1: слабая тема — по последним 15 попыткам, а не по всей истории */
 function findWeakest(history){
   if(!history || !history.length) return null;
   const recent = history.slice(-15);
@@ -463,7 +529,6 @@ function findWeakest(history){
   });
   return weakest;
 }
-/* Уровень 2: статистика за последние 7 дней */
 function weeklyStats(history){
   if(!history || !history.length) return null;
   const cutoff = Date.now() - 7*24*60*60*1000;
@@ -614,6 +679,110 @@ function makeAdd(forcedD, diff){
   };
 }
 
+/* Сложение дробей с РАЗНЫМИ знаменателями */
+function makeAddDiff(diff){
+  diff = diff || 2;
+  const maxD = diff === 1 ? 4 : diff === 3 ? 10 : 6;
+  const maxLCM = diff === 1 ? 12 : diff === 3 ? 30 : 20;
+
+  for(let t = 0; t < 300; t++){
+    const p = randInt(2, maxD);
+    const q = randInt(2, maxD);
+    if(p === q) continue;
+    const d1 = Math.min(p, q), d2 = Math.max(p, q);
+    const lcm = d1 * d2 / gcd(d1, d2);
+    if(lcm > maxLCM) continue;
+
+    const n1 = randInt(1, d1 - 1);
+    const n2 = randInt(1, d2 - 1);
+    if(gcd(n1, d1) !== 1) continue;
+    if(gcd(n2, d2) !== 1) continue;
+
+    const k1 = lcm / d1, k2 = lcm / d2;
+    const a1 = n1 * k1, a2 = n2 * k2;
+    const sum = a1 + a2;
+    if(sum >= lcm) continue;
+    if(gcd(sum, lcm) !== 1) continue;
+    return buildAddDiff(n1, d1, n2, d2, lcm, a1, a2, sum);
+  }
+  return buildAddDiff(1, 2, 1, 3, 6, 3, 2, 5);
+}
+
+function buildAddDiff(n1, d1, n2, d2, lcm, a1, a2, sum){
+  const correct = `${sum}/${lcm}`;
+
+  const cand = new Set();
+  cand.add(`${n1 + n2}/${d1 + d2}`);
+  cand.add(`${n1 + a2}/${lcm}`);
+  cand.add(`${a1 + n2}/${lcm}`);
+  cand.add(`${n1 + n2}/${lcm}`);
+
+  let distractors = distinct(shuffle([...cand]), correct).slice(0, 3);
+  let guard = 0;
+  while(distractors.length < 3 && guard++ < 300){
+    const dd = randInt(2, 12), nn = randInt(1, dd - 1);
+    const c = `${nn}/${dd}`;
+    if(fracEq(c, correct)) continue;
+    if(distractors.some(x => fracEq(x, c))) continue;
+    distractors.push(c);
+  }
+  if(distractors.length < 3){
+    for(const c of FORCE_POOL){
+      if(distractors.length >= 3) break;
+      if(fracEq(c, correct)) continue;
+      if(distractors.some(x => fracEq(x, c))) continue;
+      distractors.push(c);
+    }
+  }
+
+  const options = shuffle([correct, ...distractors]).map(o => ({label: o, correct: o === correct}));
+
+  const explanation = `
+    Приведём к общему знаменателю ${lcm}:<br>
+    ${n1}/${d1} = ${a1}/${lcm}, &nbsp; ${n2}/${d2} = ${a2}/${lcm}.<br>
+    Складываем числители: ${a1} + ${a2} = ${sum}.<br>
+    Получаем ${sum}/${lcm}.
+  `;
+
+  const explanationVisual = `
+    <div class="explanation-visual" aria-hidden="true">
+      <div class="anim-row anim-conversion">
+        ${splitBar(a1, lcm, d1)}
+        <div class="explanation-label">${fracHTML(n1,d1)} = ${fracHTML(a1,lcm)}</div>
+      </div>
+      <div class="anim-row anim-conversion">
+        ${splitBar(a2, lcm, d2)}
+        <div class="explanation-label">${fracHTML(n2,d2)} = ${fracHTML(a2,lcm)}</div>
+      </div>
+      <div class="anim-row anim-sum">
+        ${fractionBar(sum, lcm)}
+        <div class="explanation-label">${fracHTML(a1,lcm)} + ${fracHTML(a2,lcm)} = ${fracHTML(sum,lcm)}</div>
+      </div>
+    </div>
+  `;
+
+  return {
+    type:'addDiff',
+    prompt:'Сложи дроби с разными знаменателями:',
+    visual:`
+      <div class="identify-visual">
+        <div class="compare-visual">
+          <div class="compare-item">${fractionBar(n1,d1)}<div class="compare-label">${fracHTML(n1,d1)}</div></div>
+          <div class="compare-item">${fractionBar(n2,d2)}<div class="compare-label">${fracHTML(n2,d2)}</div></div>
+        </div>
+        <div class="bar-legend">
+          <span>${fracHTML(n1,d1)}</span>
+          <span class="plus">+</span>
+          <span>${fracHTML(n2,d2)}</span>
+          <span class="eq">= ?</span>
+        </div>
+      </div>`,
+    options,
+    explanation,
+    explanationVisual
+  };
+}
+
 const COPRIME_PAIRS = [[1,2],[1,3],[2,3],[1,4],[3,4],[1,5],[2,5],[3,5],[4,5],[1,6],[5,6],[1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,8],[3,8],[5,8],[7,8],[1,9],[2,9],[4,9],[5,9],[7,9],[8,9],[1,10],[3,10],[7,10],[9,10],[1,11],[2,11],[3,11],[10,11],[1,12],[5,12],[7,12],[11,12]];
 function makeSimplify(diff){
   diff = diff || 2;
@@ -668,6 +837,7 @@ function generateByType(type){
     case 'compare':  return makeCompare(diff);
     case 'identify': return makeIdentify(undefined, diff);
     case 'add':      return makeAdd(undefined, diff);
+    case 'addDiff':  return makeAddDiff(diff);
     case 'simplify': return makeSimplify(diff);
     default:         return makeCompare(diff);
   }
@@ -677,7 +847,7 @@ function buildQuestionSet(topicFilter){
   if(topicFilter){
     for(let i = 0; i < 8; i++) pool.push(generateByType(topicFilter));
   } else {
-    const types = ['compare','compare','identify','identify','add','add','simplify','simplify'];
+    const types = ['compare','identify','add','addDiff','simplify','compare','addDiff','simplify'];
     shuffle(types).forEach(t => pool.push(generateByType(t)));
   }
   return pool;
@@ -694,8 +864,8 @@ const state = {
   wrongQuestions: [],
   theme: 'light',
   soundOn: true,
-  topicStreak: { compare: 0, identify: 0, add: 0, simplify: 0 },
-  topicDifficulty: { compare: 2, identify: 2, add: 2, simplify: 2 }
+  topicStreak: { compare: 0, identify: 0, add: 0, addDiff: 0, simplify: 0 },
+  topicDifficulty: defaultDifficulty()
 };
 
 /* ===================== ТЕМА / ЗВУК / TOAST ===================== */
@@ -737,6 +907,35 @@ function showToast(msg){
   }, 2200);
 }
 
+/* ===================== АНИМАЦИЯ «НАРЕЗКИ» ===================== */
+function animateAddDiff(){
+  const bars = document.querySelectorAll('.anim-conversion');
+  const sumRow = document.querySelector('.anim-sum');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduce) {
+    bars.forEach(row => {
+      row.querySelectorAll('.frac-seg.sub-border').forEach(s => s.classList.add('shown'));
+    });
+    if (sumRow) sumRow.classList.add('show');
+    return;
+  }
+
+  function revealRow(row, startDelay){
+    if (!row) return;
+    const subs = row.querySelectorAll('.frac-seg.sub-border');
+    setTimeout(() => {
+      subs.forEach((seg, i) => {
+        setTimeout(() => seg.classList.add('shown'), i * 80);
+      });
+    }, startDelay);
+  }
+
+  revealRow(bars[0], 400);
+  revealRow(bars[1], 1000);
+  setTimeout(() => { if (sumRow) sumRow.classList.add('show'); }, 1800);
+}
+
 /* ===================== РЕНДЕР ===================== */
 function render(){
   const app = document.getElementById('app');
@@ -752,7 +951,8 @@ function renderStart(){
       <div class="badge">Математика · 5–6 класс</div>
       <h1>Дроби без стресса</h1>
       <p class="lead">
-        8 коротких заданий, чтобы разобраться в сравнении, записи, сложении и сокращении дробей.
+        8 коротких заданий: сравнение, чтение, сложение — в том числе
+        <strong>с разными знаменателями</strong>, и сокращение дробей.
         Наглядные полоски и понятное объяснение после каждого ответа.
       </p>
       <div class="features">
@@ -889,6 +1089,7 @@ function renderFeedback(q){
         <div class="feedback-text">${q.explanation}</div>
       </div>
     </div>
+    ${q.explanationVisual || ''}
     <div class="next-wrap">
       <button class="btn btn-primary" data-action="next">
         ${isLast ? 'Показать результат →' : 'Следующее задание →'}
@@ -962,20 +1163,19 @@ function startGame(topicFilter){
   state.isRecord = false; state.prevBest = null;
   state.isRetry = false;
   state.wrongQuestions = [];
-  state.topicStreak = { compare: 0, identify: 0, add: 0, simplify: 0 };
+  state.topicStreak = { compare: 0, identify: 0, add: 0, addDiff: 0, simplify: 0 };
   render();
 }
 
 function retryMistakes(){
   if(!state.wrongQuestions.length) return;
-  /* Уровень 1: генерим заново тот же тип — новые числа */
   state.questions = state.wrongQuestions.map(w => generateByType(w.type));
   state.wrongQuestions = [];
   state.current = 0; state.score = 0; state.streak = 0; state.bestStreak = 0;
   state.answered = false; state.selectedIndex = null; state.screen = 'quiz';
   state.byTopic = {};
   state.isRetry = true;
-  state.topicStreak = { compare: 0, identify: 0, add: 0, simplify: 0 };
+  state.topicStreak = { compare: 0, identify: 0, add: 0, addDiff: 0, simplify: 0 };
   render();
 }
 
@@ -989,12 +1189,14 @@ function answer(index){
   if(!state.byTopic[topic]) state.byTopic[topic] = {correct:0, total:0};
   state.byTopic[topic].total++;
 
+  if(!(topic in state.topicStreak)) state.topicStreak[topic] = 0;
+  if(!(topic in state.topicDifficulty)) state.topicDifficulty[topic] = 2;
+
   if(ok){
     state.score++;
     state.streak++;
     state.byTopic[topic].correct++;
     if(state.streak > state.bestStreak) state.bestStreak = state.streak;
-    /* Уровень 1: адаптивная сложность — 2 подряд → уровень вверх */
     state.topicStreak[topic]++;
     if(state.topicStreak[topic] >= 2 && state.topicDifficulty[topic] < 3){
       state.topicDifficulty[topic]++;
@@ -1013,6 +1215,10 @@ function answer(index){
     playWrong();
   }
   render();
+  /* Запускаем анимацию «нарезки» после того, как DOM отрисован */
+  if(document.querySelector('.anim-conversion')){
+    setTimeout(animateAddDiff, 50);
+  }
 }
 
 function next(){
@@ -1041,7 +1247,7 @@ function next(){
   render();
 }
 
-/* ===================== ПОДЕЛИТЬСЯ (Canvas PNG) ===================== */
+/* ===================== ПОДЕЛИТЬСЯ ===================== */
 function shareResult(){
   const total = state.questions.length;
   const pct = Math.round((state.score/total) * 100);
@@ -1133,25 +1339,28 @@ function runDiagnostics(){
   for(let i=0;i<N;i++) checkQuestion(makeAdd(3), 'makeAdd(d=3)');
   const tAddD3 = performance.now() - t;
   t = performance.now();
+  for(let i=0;i<N;i++) checkQuestion(makeAddDiff(), 'makeAddDiff');
+  const tAddDiff = performance.now() - t;
+  t = performance.now();
   for(let i=0;i<N;i++) checkQuestion(makeSimplify(), 'makeSimplify');
   const tSimplify = performance.now() - t;
   t = performance.now();
   for(let i=0;i<1000;i++) checkQuestion(makeIdentify(2), 'makeIdentify(d=2)');
   for(let i=0;i<1000;i++) checkQuestion(makeIdentify(8), 'makeIdentify(d=8)');
   const tIdentifyEdge = performance.now() - t;
-  /* Проверка всех уровней сложности */
   t = performance.now();
   for(const diff of [1,2,3]){
-    for(let i=0;i<500;i++){ checkQuestion(makeCompare(diff), `makeCompare(diff=${diff})`); }
-    for(let i=0;i<500;i++){ checkQuestion(makeIdentify(undefined, diff), `makeIdentify(diff=${diff})`); }
-    for(let i=0;i<500;i++){ checkQuestion(makeAdd(undefined, diff), `makeAdd(diff=${diff})`); }
-    for(let i=0;i<500;i++){ checkQuestion(makeSimplify(diff), `makeSimplify(diff=${diff})`); }
+    for(let i=0;i<500;i++) checkQuestion(makeCompare(diff), `makeCompare(diff=${diff})`);
+    for(let i=0;i<500;i++) checkQuestion(makeIdentify(undefined, diff), `makeIdentify(diff=${diff})`);
+    for(let i=0;i<500;i++) checkQuestion(makeAdd(undefined, diff), `makeAdd(diff=${diff})`);
+    for(let i=0;i<500;i++) checkQuestion(makeAddDiff(diff), `makeAddDiff(diff=${diff})`);
+    for(let i=0;i<500;i++) checkQuestion(makeSimplify(diff), `makeSimplify(diff=${diff})`);
   }
   const tDifficulty = performance.now() - t;
   return {
     issues: issues.slice(0, 10),
     total: issues.length,
-    times: { tCompare, tIdentify, tAdd, tAddD3, tSimplify, tIdentifyEdge, tDifficulty }
+    times: { tCompare, tIdentify, tAdd, tAddD3, tAddDiff, tSimplify, tIdentifyEdge, tDifficulty }
   };
 }
 window.diag = function(){
@@ -1268,6 +1477,7 @@ if(urlParams.has('selftest')){
       <div>makeIdentify: ${Math.round(t.tIdentify)} ms</div>
       <div>makeAdd: ${Math.round(t.tAdd)} ms</div>
       <div>makeAdd(d=3): ${Math.round(t.tAddD3)} ms</div>
+      <div>makeAddDiff: ${Math.round(t.tAddDiff)} ms</div>
       <div>makeSimplify: ${Math.round(t.tSimplify)} ms</div>
       <div>makeIdentify(d=2,8): ${Math.round(t.tIdentifyEdge)} ms</div>
       <div>Все уровни сложности (1,2,3): ${Math.round(t.tDifficulty)} ms</div>
