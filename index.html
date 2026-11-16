@@ -286,6 +286,7 @@ html[data-theme="dark"] .weak-topic{
   text-decoration-color:var(--slate-300);text-underline-offset:3px}
 .link-btn:hover{color:var(--rose);text-decoration-color:currentColor}
 .link-btn:focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
+.stats-footer .link-btn + .link-btn{margin-left:4px}
 
 /* Toolbar */
 .app-toolbar{
@@ -598,15 +599,19 @@ function makeSimplify(){
   const [a, b] = COPRIME_PAIRS[randInt(0, COPRIME_PAIRS.length - 1)];
   const k = randInt(2, 3);
   const n = a * k, d = b * k;
-  const g = gcd(n, d);
+  const g = gcd(n, d); // == k, т.к. a, b взаимно просты
   const correct = `${a}/${b}`;
 
   const cand = new Set();
+  // Типичная ошибка: сократить только числитель или только знаменатель
   if (n % g === 0) { const c = `${n/g}/${d}`; if (!fracEq(c, correct)) cand.add(c); }
   if (d % g === 0) { const c = `${n}/${d/g}`; if (!fracEq(c, correct)) cand.add(c); }
+  // Ошибка: вычитание вместо деления
   if (n - g > 0 && d - g > 0) { const c = `${n-g}/${d-g}`; if (!fracEq(c, correct)) cand.add(c); }
+  // Ошибка: сократить на неправильный делитель (если он подходит)
   if (k > 2 && n % (k-1) === 0 && d % (k-1) === 0) { const c = `${n/(k-1)}/${d/(k-1)}`; if (!fracEq(c, correct)) cand.add(c); }
   if (n % (k+1) === 0 && d % (k+1) === 0) { const c = `${n/(k+1)}/${d/(k+1)}`; if (!fracEq(c, correct)) cand.add(c); }
+  // Плаузибельные случайные
   if (a+1 < b) { const c = `${a+1}/${b}`; if (!fracEq(c, correct)) cand.add(c); }
   { const c = `${a}/${b+1}`; if (!fracEq(c, correct)) cand.add(c); }
 
@@ -769,7 +774,8 @@ function renderStatsCard(history){
       </div>
       ${weak ? renderWeakTopic(weak) : ''}
       <div class="stats-footer">
-        <button class="link-btn" data-action="reset-history">Сбросить историю</button>
+        <button class="link-btn" data-action="export-history">Экспорт</button>
+        <button class="link-btn" data-action="reset-history">Сбросить</button>
       </div>
     </section>
   `;
@@ -995,6 +1001,23 @@ function next(){
   render();
 }
 
+/* ===================== ЭКСПОРТ ===================== */
+function exportHistory(){
+  const data = loadHistory();
+  if (!data.length) return;
+  try {
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `fractions-history-${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  } catch (e) {}
+}
+
 /* ===================== ДИАГНОСТИКА ===================== */
 function runDiagnostics(){
   const issues = [];
@@ -1063,6 +1086,7 @@ document.addEventListener('click', e => {
   else if (a === 'next') { next(); }
   else if (a === 'retry-mistakes') { playClick(); retryMistakes(); }
   else if (a === 'home') { playClick(); state.screen = 'start'; render(); }
+  else if (a === 'export-history') { exportHistory(); }
   else if (a === 'reset-history') {
     if (confirm('Удалить всю историю прохождений? Это действие нельзя отменить.')) {
       clearHistory();
